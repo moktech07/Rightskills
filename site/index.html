@@ -4,549 +4,412 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RightSkills - Perfect Skills for Every Job</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23818cf8'>⚡</text></svg>">
+    <link rel="stylesheet" href="shared.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
-        * { font-family: 'Inter', sans-serif; }
-
-        :root {
-            --bg-primary: #09090b;
-            --bg-secondary: #18181b;
-            --bg-tertiary: #27272a;
-            --border-color: #3f3f46;
-            --accent: #818cf8;
-        }
-
-        body {
-            background-color: var(--bg-primary);
-            color: #fafafa;
-        }
-
-        input::placeholder {
-            color: #71717a !important;
-        }
-
-        input:focus {
-            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.1) !important;
-        }
-
-        .glow-badge {
-            background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
-            box-shadow: 0 0 20px rgba(129, 140, 248, 0.3);
-        }
-
-        .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .card-hover:hover {
-            border-color: #818cf8 !important;
-            background-color: rgba(129, 140, 248, 0.05) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(129, 140, 248, 0.15) !important;
-        }
-
-        .skill-card-hover:hover {
-            border-color: #818cf8 !important;
-            background-color: rgba(129, 140, 248, 0.08) !important;
-            box-shadow: 0 12px 48px rgba(129, 140, 248, 0.2) !important;
-        }
-
-        .search-input {
-            background-color: var(--bg-secondary);
-            border-color: var(--border-color);
-        }
-
-        .search-input:focus {
-            border-color: var(--accent) !important;
-        }
-
-        .filter-btn {
-            background-color: var(--bg-tertiary);
-            color: #a1a1aa;
-            border: 1px solid var(--border-color);
-            transition: all 0.2s ease;
-        }
-
-        .filter-btn:hover {
-            border-color: var(--accent);
-            color: #fafafa;
-        }
-
-        .filter-btn.active {
-            background-color: var(--accent);
-            border-color: var(--accent);
-            color: var(--bg-primary);
-        }
-
-        .grade-a {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: #ecfdf5;
-        }
-        .grade-b {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: #eff6ff;
-        }
-        .grade-c {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #fefce8;
-        }
-        .grade-d {
-            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-            color: #fff7ed;
-        }
-        .grade-f {
-            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-            color: #fef2f2;
-        }
-
-        .modal-overlay {
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-        }
-
-        .modal-content {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            animation: slideUp 0.3s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .glass-card {
-            background: rgba(24, 24, 27, 0.8);
-            border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
-        }
-
-        .donate-button {
-            background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
-            border: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(129, 140, 248, 0.3);
-        }
-
-        .donate-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(129, 140, 248, 0.4);
-        }
-
-        .section-divider {
-            border-color: var(--border-color);
-        }
-
-        .icon-container {
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
-            border-radius: 12px;
-            font-size: 24px;
-        }
-
         .hero-section {
             background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             border-bottom: 1px solid var(--border-color);
         }
 
-        .copy-feedback {
-            animation: slideDown 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .stack-grid {
+        .hero-grid {
             display: grid;
-            gap: 16px;
-        }
-
-        .skill-grid {
-            display: grid;
-            gap: 16px;
-        }
-
-        @media (min-width: 768px) {
-            .stack-grid { grid-template-columns: repeat(2, 1fr); }
-            .skill-grid { grid-template-columns: repeat(2, 1fr); }
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+            padding: 6rem 1.5rem;
         }
 
         @media (min-width: 1024px) {
-            .stack-grid { grid-template-columns: repeat(4, 1fr); }
-            .skill-grid { grid-template-columns: repeat(3, 1fr); }
+            .hero-grid {
+                grid-template-columns: 1fr 1fr;
+                padding: 6rem 1.5rem;
+            }
         }
 
-        @keyframes tilt-float {
-            0%, 100% {
-                transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0);
+        .hero-content h2 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            line-height: 1.1;
+            margin: 1.5rem 0;
+            letter-spacing: -0.025em;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h2 {
+                font-size: 2.25rem;
+                text-align: center;
             }
-            25% {
-                transform: perspective(1000px) rotateX(-5deg) rotateY(8deg) translateZ(10px);
-            }
-            50% {
-                transform: perspective(1000px) rotateX(5deg) rotateY(-8deg) translateZ(20px);
-            }
-            75% {
-                transform: perspective(1000px) rotateX(-3deg) rotateY(5deg) translateZ(15px);
+        }
+
+        .hero-content p {
+            font-size: 1.125rem;
+            color: #a1a1aa;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-content .btn-primary {
+            font-size: 1rem;
+            padding: 0.75rem 2rem;
+        }
+
+        .tilt-card-container {
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (min-width: 1024px) {
+            .tilt-card-container {
+                display: flex;
             }
         }
 
         .tilt-card {
-            animation: tilt-float 6s ease-in-out infinite;
-            transform-style: preserve-3d;
+            width: 320px;
+            height: 320px;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            background: rgba(24, 24, 27, 0.8);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
-        @keyframes float-up {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+        .tilt-card .accent-bg {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(48px);
+            z-index: 0;
         }
 
-        .float-element {
+        .tilt-card .accent-top {
+            top: 0;
+            left: 0;
+            width: 128px;
+            height: 128px;
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .tilt-card .accent-bottom {
+            bottom: 0;
+            right: 0;
+            width: 128px;
+            height: 128px;
+            background: rgba(168, 85, 247, 0.2);
+        }
+
+        .tilt-card .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .tilt-card .emoji {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
             animation: float-up 4s ease-in-out infinite;
         }
 
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 30px rgba(129, 140, 248, 0.4), 0 0 60px rgba(99, 102, 241, 0.2); }
-            50% { box-shadow: 0 0 50px rgba(129, 140, 248, 0.6), 0 0 80px rgba(99, 102, 241, 0.3); }
+        .tilt-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
         }
 
-        .flex-badge {
-            animation: pulse-glow 2.5s ease-in-out infinite;
-            background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
-            border: 1px solid rgba(129, 140, 248, 0.5);
-        }
-
-        .sponsored-card {
-            position: relative;
-            background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
-            border: 1.5px solid rgba(129, 140, 248, 0.3);
-            box-shadow: 0 0 30px rgba(129, 140, 248, 0.2), inset 0 0 30px rgba(129, 140, 248, 0.05);
-        }
-
-        .sponsored-badge {
-            position: absolute;
-            top: 3px;
-            right: 3px;
-            background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
-            color: white;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .metric-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 6px 10px;
-            background-color: rgba(129, 140, 248, 0.1);
-            border: 1px solid rgba(129, 140, 248, 0.2);
-            border-radius: 6px;
-            font-size: 12px;
-            color: #e4e4e7;
-        }
-
-        .verified-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 16px;
-            height: 16px;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            border-radius: 50%;
-            color: white;
-            font-size: 10px;
-            flex-shrink: 0;
-        }
-
-        .author-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            flex-shrink: 0;
-            border: 1px solid rgba(129, 140, 248, 0.3);
-        }
-
-        .stats-row {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .data-dense-card {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .data-dense-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .data-dense-title-section {
-            flex: 1;
-        }
-
-        .data-dense-metrics {
-            margin-top: auto;
-            padding-top: 12px;
-            border-top: 1px solid rgba(129, 140, 248, 0.1);
-        }
-
-        .data-dense-author {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 8px;
-            padding-top: 8px;
-        }
-
-        .data-dense-author-name {
-            font-size: 12px;
+        .tilt-card p {
+            font-size: 0.875rem;
             color: #a1a1aa;
+            line-height: 1.5;
+        }
+
+        .featured-section {
+            padding: 5rem 1.5rem;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .featured-card {
+            background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
+            border: 1px solid rgba(129, 140, 248, 0.2);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .featured-card:hover {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, rgba(129, 140, 248, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);
+            transform: translateY(-4px);
+        }
+
+        .featured-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .featured-card h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-card p {
+            font-size: 0.875rem;
+            color: #a1a1aa;
+            line-height: 1.6;
+        }
+
+        .cta-section {
+            padding: 5rem 1.5rem;
+            background: linear-gradient(135deg, rgba(129, 140, 248, 0.05) 0%, rgba(99, 102, 241, 0.02) 100%);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .cta-section h3 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.125rem;
+            color: #a1a1aa;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="sticky top-0 z-40 border-b section-divider backdrop-filter backdrop-blur-xl bg-opacity-80" style="background-color: rgba(9, 9, 11, 0.8);">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="icon-container text-2xl">⚡</div>
-                <h1 class="text-xl font-bold tracking-tight">RightSkills</h1>
+    <header>
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <span>RightSkills</span>
             </div>
 
-            <nav class="hidden lg:flex items-center gap-8">
-                <a href="#stacks" class="text-sm text-gray-400 hover:text-white transition">Stacks</a>
-                <a href="#skills" class="text-sm text-gray-400 hover:text-white transition">Skills</a>
-                <a href="#reviews" class="text-sm text-gray-400 hover:text-white transition">Reviews</a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="catalog.html">Catalog</a>
+                <a href="stacks.html">Stacks</a>
+                <a href="submit.html">Submit</a>
+                <a href="sponsor.html">Sponsor</a>
             </nav>
 
-            <a href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" class="donate-button px-5 py-2 rounded-lg font-semibold text-sm text-white hover:text-white transition">
-                Support
-            </a>
+            <div class="header-buttons">
+                <a href="submit.html" class="btn-secondary">Submit Skill</a>
+                <a href="sponsor.html" class="btn-primary">Book Ad Space</a>
+            </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero-section py-24 px-6">
-        <div class="max-w-5xl mx-auto">
-            <!-- Flex Badge -->
-            <div class="flex justify-center mb-8">
-                <div class="flex-badge inline-flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-sm">
-                    <span class="text-lg">⚡</span>
-                    <span class="text-sm font-bold text-white">Built end-to-end using RightSkills agent skills</span>
+    <section class="hero-section">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 4rem;">
+                <div class="flex-badge" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; border-radius: 9999px;">
+                    <span>⚡</span>
+                    <span style="font-size: 0.875rem; font-weight: bold;">Built end-to-end using RightSkills agent skills</span>
                 </div>
             </div>
 
-            <!-- Main Content Grid -->
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <!-- Left: Text Content -->
-                <div class="text-center lg:text-left">
-                    <div class="inline-flex lg:inline-block items-center gap-2 px-4 py-2 bg-opacity-10 border section-divider rounded-full mb-6 glow-badge lg:mb-6" style="background-color: rgba(129, 140, 248, 0.1);">
-                        <span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full" style="background-color: #818cf8; opacity: 0.75;"></span><span class="relative inline-flex rounded-full h-2 w-2" style="background-color: #818cf8;"></span></span>
-                        <span class="text-sm font-semibold" style="color: #818cf8;">Curated with AI & Human Review</span>
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <div style="display: inline-block; padding: 0.5rem 1rem; background-color: rgba(129, 140, 248, 0.1); border: 1px solid rgba(129, 140, 248, 0.2); border-radius: 9999px; margin-bottom: 1.5rem;">
+                        <span style="font-size: 0.875rem; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="display: inline-block; width: 0.5rem; height: 0.5rem; background-color: var(--accent); border-radius: 50%;"></span>
+                            Curated with AI & Human Review
+                        </span>
                     </div>
-                    <h2 class="text-5xl sm:text-6xl lg:text-6xl font-bold mb-6 tracking-tight">Skills crafted for your Tasks</h2>
-                    <p class="text-lg sm:text-xl text-gray-400 mb-10 leading-relaxed">Expert-curated skill stacks. One-click install. Powered by AI agents and human reviewers.</p>
-                    <button onclick="document.getElementById('stacks').scrollIntoView({behavior: 'smooth'})" class="donate-button px-8 py-3 rounded-lg font-semibold text-white hover:text-white transition">
-                        Explore Stacks →
-                    </button>
+                    <h2>Skills crafted for your Tasks</h2>
+                    <p>Expert-curated skill stacks designed for developers, creators, students, and founders. One-click install with verified security grades and community reviews.</p>
+                    <a href="catalog.html" class="btn-primary">Explore Catalog →</a>
                 </div>
 
-                <!-- Right: 3D Tilt Card -->
-                <div class="hidden lg:flex items-center justify-center">
-                    <div class="tilt-card w-80 h-80 rounded-2xl p-8 glass-card overflow-hidden relative group">
-                        <!-- Animated gradient background -->
-                        <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 via-transparent to-purple-500/20 group-hover:from-indigo-500/30 group-hover:to-purple-500/30 transition duration-500"></div>
-
-                        <!-- Content -->
-                        <div class="relative z-10 h-full flex flex-col items-center justify-center">
-                            <div class="text-7xl mb-6 float-element">✨</div>
-                            <h3 class="text-2xl font-bold mb-3 text-center">Precision Meets Power</h3>
-                            <p class="text-center text-gray-300 text-sm leading-relaxed">Engineered for developers, creators, students, and founders.</p>
+                <div class="tilt-card-container">
+                    <div class="tilt-card">
+                        <div class="accent-bg accent-top"></div>
+                        <div class="accent-bg accent-bottom"></div>
+                        <div class="content">
+                            <div class="emoji">✨</div>
+                            <h3>Precision Meets Power</h3>
+                            <p>Engineered for developers, creators, students, and founders.</p>
                         </div>
-
-                        <!-- Accent lines -->
-                        <div class="absolute top-0 left-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -z-0"></div>
-                        <div class="absolute bottom-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl -z-0"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Stacks Section -->
-    <section id="stacks" class="py-20 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-16">
-                <h3 class="text-3xl font-bold tracking-tight mb-3">Choose Your Path</h3>
-                <p class="text-gray-400">Pre-curated skill stacks designed for your role</p>
+    <!-- Featured Highlights -->
+    <section class="featured-section">
+        <div class="container">
+            <div style="margin-bottom: 3rem;">
+                <h3 class="section-title">Why Choose RightSkills?</h3>
+                <p class="section-subtitle">Everything you need, nothing you don't</p>
             </div>
 
-            <div class="mb-10">
-                <input type="text" id="stackSearchInput" placeholder="Search stacks..." class="w-full px-4 py-3 rounded-lg search-input focus:outline-none text-white text-sm" oninput="searchItems()">
-            </div>
+            <div class="featured-grid">
+                <div class="featured-card">
+                    <div class="icon">🔍</div>
+                    <h4>AI + Human Verified</h4>
+                    <p>Each skill is reviewed by both AI agents and human experts to ensure quality, security, and effectiveness.</p>
+                </div>
 
-            <div class="stack-grid" id="stacks-container">
-                <!-- Stacks loaded via JS -->
+                <div class="featured-card">
+                    <div class="icon">⚡</div>
+                    <h4>One-Click Install</h4>
+                    <p>Copy to chat, download as markdown, or use pre-built stacks. Get started in seconds.</p>
+                </div>
+
+                <div class="featured-card">
+                    <div class="icon">📊</div>
+                    <h4>Transparent Metrics</h4>
+                    <p>View security grades, test coverage, usage stats, and community reviews for every skill.</p>
+                </div>
+
+                <div class="featured-card">
+                    <div class="icon">🎯</div>
+                    <h4>Role-Based Stacks</h4>
+                    <p>Pre-curated skill collections for developers, creators, students, and founders.</p>
+                </div>
+
+                <div class="featured-card">
+                    <div class="icon">🌍</div>
+                    <h4>Community Powered</h4>
+                    <p>Submit your own skills, see real usage counts, and grow your reputation.</p>
+                </div>
+
+                <div class="featured-card">
+                    <div class="icon">🔒</div>
+                    <h4>Security First</h4>
+                    <p>Every skill undergoes security audits. View grades from A to F before installation.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills Section -->
-    <section id="skills" class="py-20 px-6 border-y section-divider">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-16">
-                <h3 class="text-3xl font-bold tracking-tight mb-3">Skill Catalog</h3>
-                <p class="text-gray-400">Browse available skills with security grades and test coverage</p>
-            </div>
-
-            <div class="mb-10">
-                <input type="text" id="searchInput" placeholder="Search skills..." class="w-full px-4 py-3 rounded-lg search-input focus:outline-none text-white text-sm mb-6" oninput="searchItems()">
-                <div class="flex gap-2 flex-wrap">
-                    <button onclick="filterSkills('all')" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold active">All</button>
-                    <button onclick="filterSkills('Developer')" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold">Developer</button>
-                    <button onclick="filterSkills('Creator')" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold">Creator</button>
-                    <button onclick="filterSkills('Student')" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold">Student</button>
-                    <button onclick="filterSkills('Founder')" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold">Founder</button>
-                </div>
-            </div>
-
-            <div class="skill-grid" id="skills-container">
-                <!-- Skills loaded via JS -->
-            </div>
+    <!-- RightSkills Agent Badge Section -->
+    <section style="padding: 5rem 1.5rem; background: linear-gradient(135deg, rgba(129, 140, 248, 0.08) 0%, rgba(99, 102, 241, 0.03) 100%); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+        <div class="container" style="text-align: center; max-width: 800px; margin: 0 auto;">
+            <div style="font-size: 3rem; margin-bottom: 1.5rem;">🤖</div>
+            <h3 class="section-title">RightSkills Agent</h3>
+            <p class="section-subtitle">Curated skill recommendations, tailored to your workflow</p>
+            <p style="color: #a1a1aa; margin-bottom: 2rem; line-height: 1.7;">The RightSkills agent intelligently recommends the perfect skill combinations based on your role, project type, and preferences. Chat with Claude and mention "I need RightSkills agent" to get started.</p>
+            <button class="btn-primary" onclick="alert('RightSkills Agent integration coming soon!');">Try RightSkills Agent</button>
         </div>
     </section>
 
-    <!-- Reviews Section -->
-    <section id="reviews" class="py-20 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-16">
-                <h3 class="text-3xl font-bold tracking-tight mb-3">Community Reviews</h3>
-                <p class="text-gray-400">See what humans and AI agents think</p>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-10">
-                <!-- Human Reviews -->
-                <div class="glass-card rounded-xl p-8">
-                    <h4 class="text-lg font-bold mb-6 flex items-center gap-3">
-                        <span class="icon-container text-xl">👥</span>
-                        Human Reviews
-                    </h4>
-                    <div id="human-reviews" class="space-y-4">
-                        <!-- Reviews loaded via JS -->
-                    </div>
-                </div>
-
-                <!-- Agent Reviews -->
-                <div class="glass-card rounded-xl p-8">
-                    <h4 class="text-lg font-bold mb-6 flex items-center gap-3">
-                        <span class="icon-container text-xl">🤖</span>
-                        Agent Reviews
-                    </h4>
-                    <div id="agent-reviews" class="space-y-4">
-                        <!-- Reviews loaded via JS -->
-                    </div>
-                </div>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container" style="max-width: 800px;">
+            <h3>Ready to Level Up?</h3>
+            <p>Browse our curated catalog of skills and find the perfect tools for your next project.</p>
+            <div class="cta-buttons">
+                <a href="catalog.html" class="btn-primary">Browse Catalog</a>
+                <a href="stacks.html" class="btn-secondary">View Stacks</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="border-t section-divider py-16 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-10 mb-12">
-                <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="icon-container text-xl">⚡</div>
-                        <h4 class="text-sm font-bold">RightSkills</h4>
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <div class="logo">
+                        <div class="logo-icon">⚡</div>
+                        <span>RightSkills</span>
                     </div>
-                    <p class="text-sm text-gray-500">Perfect skills for every job, one-click away.</p>
+                    <p style="font-size: 0.875rem; color: #71717a; margin-top: 0.5rem;">Perfect skills for every job, one-click away.</p>
                 </div>
 
-                <div>
-                    <h5 class="text-sm font-bold mb-4">Navigate</h5>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="#stacks" class="text-gray-500 hover:text-white transition">Stacks</a></li>
-                        <li><a href="#skills" class="text-gray-500 hover:text-white transition">Skills</a></li>
-                        <li><a href="#reviews" class="text-gray-500 hover:text-white transition">Reviews</a></li>
+                <div class="footer-section">
+                    <h5>Navigate</h5>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="catalog.html">Catalog</a></li>
+                        <li><a href="stacks.html">Stacks</a></li>
+                        <li><a href="submit.html">Submit</a></li>
                     </ul>
                 </div>
 
-                <div class="text-right">
-                    <a href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" class="donate-button inline-flex items-center justify-center gap-2 px-5 py-2 rounded-lg font-semibold text-sm text-white transition">
-                        Support Us
-                    </a>
+                <div class="footer-section">
+                    <h5>Community</h5>
+                    <ul>
+                        <li><a href="#reviews">Reviews</a></li>
+                        <li><a href="#contribute">Contribute</a></li>
+                        <li><a href="#feedback">Feedback</a></li>
+                        <li><a href="sponsor.html">Sponsor</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Resources</h5>
+                    <ul>
+                        <li><a href="#docs">Documentation</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#support">Support</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="border-t section-divider pt-8 text-center">
-                <p class="text-xs text-gray-600">&copy; 2026 RightSkills. Built with precision.</p>
+            <div class="footer-bottom">
+                <p>&copy; 2026 RightSkills. Built with precision. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- Install Modal -->
-    <div id="installModal" class="fixed inset-0 hidden modal-overlay z-50 flex items-center justify-center p-4">
-        <div class="modal-content rounded-2xl max-w-md w-full">
-            <div class="p-8">
-                <div class="flex items-center justify-between mb-6">
-                    <h4 id="modalTitle" class="text-xl font-bold">Install Skill</h4>
-                    <button onclick="closeModal()" class="text-gray-500 hover:text-white transition text-2xl leading-none">&times;</button>
+    <div id="installModal" class="modal-overlay hidden">
+        <div class="modal-content" style="max-width: 32rem;">
+            <div style="padding: 2rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                    <h4 id="modalTitle" style="font-size: 1.25rem; font-weight: bold; margin: 0;">Install Skill</h4>
+                    <button onclick="closeModal()" style="background: none; border: none; color: #71717a; font-size: 1.5rem; cursor: pointer;">×</button>
                 </div>
 
-                <div id="installOptions" class="space-y-3">
-                    <button onclick="copyToClipboard()" class="w-full flex items-center gap-3 p-4 border section-divider rounded-lg card-hover font-semibold text-sm hover:bg-opacity-50 transition">
-                        <span class="text-lg">📋</span>
+                <div id="installOptions" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <button onclick="copyToClipboard()" class="card-hover" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; background: transparent; cursor: pointer; font-weight: 600; font-size: 0.875rem; color: #fafafa;">
+                        <span style="font-size: 1.125rem;">📋</span>
                         <span>Copy for Chat</span>
                     </button>
 
-                    <button onclick="downloadMarkdown()" class="w-full flex items-center gap-3 p-4 border section-divider rounded-lg card-hover font-semibold text-sm hover:bg-opacity-50 transition">
-                        <span class="text-lg">📄</span>
+                    <button onclick="downloadMarkdown()" class="card-hover" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; background: transparent; cursor: pointer; font-weight: 600; font-size: 0.875rem; color: #fafafa;">
+                        <span style="font-size: 1.125rem;">📄</span>
                         <span>Download as .md</span>
                     </button>
 
-                    <button onclick="downloadZip()" class="w-full flex items-center gap-3 p-4 border section-divider rounded-lg card-hover font-semibold text-sm hover:bg-opacity-50 transition">
-                        <span class="text-lg">📦</span>
+                    <button onclick="downloadZip()" class="card-hover" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; background: transparent; cursor: pointer; font-weight: 600; font-size: 0.875rem; color: #fafafa;">
+                        <span style="font-size: 1.125rem;">📦</span>
                         <span>Download ZIP</span>
                     </button>
                 </div>
 
-                <div id="copyFeedback" class="hidden mt-4 p-3 bg-opacity-20 rounded-lg text-center font-semibold text-sm copy-feedback" style="background-color: rgba(16, 185, 129, 0.2); color: #10b981;">
+                <div id="copyFeedback" class="hidden" style="margin-top: 1rem; padding: 0.75rem; background-color: rgba(16, 185, 129, 0.2); border-radius: 0.5rem; text-align: center; font-weight: 600; font-size: 0.875rem; color: #10b981;">
                     ✓ Copied to clipboard!
                 </div>
             </div>
@@ -554,31 +417,29 @@
     </div>
 
     <!-- Stack Detail Modal -->
-    <div id="stackModal" class="fixed inset-0 hidden modal-overlay z-50 flex items-center justify-center p-4">
-        <div class="modal-content rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-8">
-                <div class="flex items-center justify-between mb-6">
+    <div id="stackModal" class="modal-overlay hidden">
+        <div class="modal-content" style="max-width: 42rem; max-height: 90vh; overflow-y: auto;">
+            <div style="padding: 2rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
                     <div>
-                        <h4 id="stackModalTitle" class="text-2xl font-bold mb-2"></h4>
-                        <p id="stackModalDesc" class="text-sm text-gray-400"></p>
+                        <h4 id="stackModalTitle" style="font-size: 1.5rem; font-weight: bold; margin: 0 0 0.5rem 0;"></h4>
+                        <p id="stackModalDesc" style="font-size: 0.875rem; color: #a1a1aa; margin: 0;"></p>
                     </div>
-                    <button onclick="closeStackModal()" class="text-gray-500 hover:text-white transition text-2xl leading-none">&times;</button>
+                    <button onclick="closeStackModal()" style="background: none; border: none; color: #71717a; font-size: 1.5rem; cursor: pointer;">×</button>
                 </div>
 
-                <div class="mb-8">
-                    <h5 class="text-sm font-bold mb-4">Skills in this stack:</h5>
-                    <div id="stackSkillsList" class="space-y-3">
-                        <!-- Skills listed here -->
-                    </div>
+                <div style="margin-bottom: 2rem;">
+                    <h5 style="font-size: 0.875rem; font-weight: bold; margin-bottom: 1rem;">Skills in this stack:</h5>
+                    <div id="stackSkillsList" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
                 </div>
 
-                <button onclick="installStack()" class="donate-button w-full text-white py-3 rounded-lg font-bold text-sm transition">
+                <button onclick="installStack()" class="btn-primary" style="width: 100%; padding: 0.75rem 1.5rem; font-weight: bold; font-size: 0.875rem;">
                     Install This Stack
                 </button>
             </div>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="shared.js"></script>
 </body>
 </html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Catalog - RightSkills</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%23818cf8'>⚡</text></svg>">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .catalog-section {
+            padding: 3rem 1.5rem;
+        }
+
+        .catalog-header {
+            margin-bottom: 3rem;
+        }
+
+        .catalog-header h1 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .catalog-header p {
+            color: #a1a1aa;
+            font-size: 1rem;
+        }
+
+        .search-bar {
+            margin-bottom: 2rem;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            color: #fafafa;
+            font-size: 0.875rem;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.1);
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            background-color: var(--bg-tertiary);
+            color: #a1a1aa;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent);
+            color: #fafafa;
+        }
+
+        .filter-btn.active {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .catalog-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stats-left {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #a1a1aa;
+        }
+
+        .stat-item .value {
+            font-weight: 600;
+            color: #fafafa;
+        }
+
+        .sort-dropdown {
+            background-color: var(--bg-tertiary);
+            color: #fafafa;
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+        .sponsored-slot {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        }
+
+        .sponsored-ad {
+            position: relative;
+            background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
+            border: 1.5px solid rgba(129, 140, 248, 0.3);
+            box-shadow: 0 0 30px rgba(129, 140, 248, 0.2), inset 0 0 30px rgba(129, 140, 248, 0.05);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sponsored-ad:hover {
+            border-color: rgba(129, 140, 248, 0.5);
+            box-shadow: 0 0 40px rgba(129, 140, 248, 0.3), inset 0 0 30px rgba(129, 140, 248, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .sponsored-badge-top {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 0.375rem 0.625rem;
+            border-radius: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sponsored-content {
+            text-align: center;
+        }
+
+        .sponsored-content .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .sponsored-content h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .sponsored-content p {
+            font-size: 0.875rem;
+            color: #a1a1aa;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .sponsored-content .btn-primary {
+            padding: 0.5rem 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .skill-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: 1fr;
+        }
+
+        @media (min-width: 768px) {
+            .skill-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .skill-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .skill-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: rgba(24, 24, 27, 0.8);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .skill-card:hover {
+            border-color: var(--accent);
+            background-color: rgba(129, 140, 248, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(129, 140, 248, 0.15);
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-icon-title {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            flex: 1;
+        }
+
+        .skill-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .skill-title-section {
+            flex: 1;
+        }
+
+        .skill-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .skill-author {
+            font-size: 0.75rem;
+            color: #a1a1aa;
+        }
+
+        .skill-grade {
+            margin-bottom: 1rem;
+        }
+
+        .skill-description {
+            font-size: 0.875rem;
+            color: #a1a1aa;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .skill-metrics {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(129, 140, 248, 0.1);
+        }
+
+        .metrics-row {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
+
+        .metric-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.375rem 0.625rem;
+            background-color: rgba(129, 140, 248, 0.1);
+            border: 1px solid rgba(129, 140, 248, 0.2);
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            color: #e4e4e7;
+        }
+
+        .skill-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 0.75rem;
+        }
+
+        .skill-author-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .author-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            border: 1px solid rgba(129, 140, 248, 0.3);
+        }
+
+        .author-name {
+            font-size: 0.75rem;
+            color: #a1a1aa;
+        }
+
+        .install-btn {
+            background-color: var(--bg-tertiary);
+            color: #fafafa;
+            border: 1px solid var(--border-color);
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .install-btn:hover {
+            border-color: var(--accent);
+            background-color: rgba(129, 140, 248, 0.1);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #a1a1aa;
+        }
+
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #fafafa;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between;">
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <span>RightSkills</span>
+            </div>
+
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="catalog.html">Catalog</a>
+                <a href="stacks.html">Stacks</a>
+                <a href="submit.html">Submit</a>
+                <a href="sponsor.html">Sponsor</a>
+            </nav>
+
+            <div class="header-buttons">
+                <a href="submit.html" class="btn-secondary">Submit Skill</a>
+                <a href="sponsor.html" class="btn-primary">Book Ad Space</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Catalog Section -->
+    <section class="catalog-section">
+        <div class="container">
+            <!-- Header -->
+            <div class="catalog-header">
+                <h1>Skill Catalog</h1>
+                <p>Browse verified skills with security grades, test coverage, and community reviews</p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search skills by name or description..." oninput="searchItems()">
+            </div>
+
+            <!-- Filters -->
+            <div class="filter-section">
+                <button class="filter-btn active" onclick="filterSkills('all')">All</button>
+                <button class="filter-btn" onclick="filterSkills('Developer')">💻 Developer</button>
+                <button class="filter-btn" onclick="filterSkills('Creator')">🎬 Creator</button>
+                <button class="filter-btn" onclick="filterSkills('Student')">📚 Student</button>
+                <button class="filter-btn" onclick="filterSkills('Founder')">🚀 Founder</button>
+            </div>
+
+            <!-- Stats and Sort -->
+            <div class="catalog-stats">
+                <div class="stats-left">
+                    <div class="stat-item">
+                        <span>Total Skills:</span>
+                        <span class="value" id="skillCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Avg Security:</span>
+                        <span class="value" id="avgSecurity">A</span>
+                    </div>
+                </div>
+                <select class="sort-dropdown" onchange="sortSkills(this.value)">
+                    <option value="popular">Most Popular</option>
+                    <option value="recent">Most Recent</option>
+                    <option value="rating">Highest Rated</option>
+                    <option value="security">Best Security</option>
+                </select>
+            </div>
+
+            <!-- Sponsored Slots -->
+            <div class="sponsored-slot" id="sponsoredSlots">
+                <!-- Sponsored ads loaded here -->
+            </div>
+
+            <!-- Skill Grid -->
+            <div class="skill-grid" id="skills-container">
+                <!-- Skills loaded via JS -->
+            </div>
+
+            <div id="emptyState" class="empty-state hidden">
+                <div class="icon">🔍</div>
+                <h3>No skills found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <div class="logo">
+                        <div class="logo-icon">⚡</div>
+                        <span>RightSkills</span>
+                    </div>
+                    <p style="font-size: 0.875rem; color: #71717a; margin-top: 0.5rem;">Perfect skills for every job, one-click away.</p>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Navigate</h5>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="catalog.html">Catalog</a></li>
+                        <li><a href="stacks.html">Stacks</a></li>
+                        <li><a href="submit.html">Submit</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Community</h5>
+                    <ul>
+                        <li><a href="#reviews">Reviews</a></li>
+                        <li><a href="#contribute">Contribute</a></li>
+                        <li><a href="#feedback">Feedback</a></li>
+                        <li><a href="sponsor.html">Sponsor</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Resources</h5>
+                    <ul>
+                        <li><a href="#docs">Documentation</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                        <li><a href="#support">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 RightSkills. Built with precision. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Install Modal -->
+    <div id="installModal" class="modal-overlay hidden">
+        <div class="modal-content" style="max-width: 32rem;">
+            <div style="padding: 2rem;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
+                    <h4 id="modalTitle" style="font-size: 1.25rem; font-weight: bold; margin: 0;">Install Skill</h4>
+                    <button onclick="closeModal()" style="background: none; border: none; color: #71717a; font-size: 1.5rem; cursor: pointer;">×</button>
+                </div>
+
+                <div id="installOptions" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <button onclick="copyToClipboard()" class="card-hover" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; background: transparent; cursor: pointer; font-weight: 600; font-size: 0.875rem; color: #fafafa;">
+                        <span>📋</span>
+                        <span>Copy for Chat</span>
+                    </button>
+
+                    <button onclick="downloadMarkdown()" class="card-hover" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; background: transparent; cursor: pointer; font-weight: 600; font-size: 0.875rem; color: #fafafa;">
+                        <span>📄</span>
+                        <span>Download as .md</span>
+                    </button>
+
+                    <button onclick="downloadZip()" class="card-hover" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: 0.5rem; background: transparent; cursor: pointer; font-weight: 600; font-size: 0.875rem; color: #fafafa;">
+                        <span>📦</span>
+                        <span>Download ZIP</span>
+                    </button>
+                </div>
+
+                <div id="copyFeedback" class="hidden" style="margin-top: 1rem; padding: 0.75rem; background-color: rgba(16, 185, 129, 0.2); border-radius: 0.5rem; text-align: center; font-weight: 600; font-size: 0.875rem; color: #10b981;">
+                    ✓ Copied to clipboard!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>
+        // Catalog-specific initialization
+        function initializePageSpecific() {
+            renderCatalog();
+            loadSponsoredAds();
+        }
+
+        function renderCatalog() {
+            const container = document.getElementById('skills-container');
+            const emptyState = document.getElementById('emptyState');
+
+            const filtered = allSkills.filter(skill => {
+                const matchesSearch = skill.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                                     skill.description.toLowerCase().includes(currentSearch.toLowerCase());
+                const matchesFilter = currentFilter === 'all' || skill.jobs.includes(currentFilter);
+                return matchesSearch && matchesFilter;
+            });
+
+            // Update stats
+            document.getElementById('skillCount').textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                container.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+
+            container.innerHTML = filtered.map(skill => `
+                <div class="skill-card">
+                    <div class="skill-header">
+                        <div class="skill-icon-title">
+                            <div class="skill-icon">${skill.icon}</div>
+                            <div class="skill-title-section">
+                                <div class="skill-title">
+                                    ${skill.title}
+                                    ${skill.verified ? '<span class="badge-verified">✓</span>' : ''}
+                                </div>
+                                <div class="skill-author">${skill.author}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-grade">
+                        <span class="grade-badge grade-${skill.security_grade.toLowerCase()}">${skill.security_grade}</span>
+                    </div>
+
+                    <p class="skill-description">${skill.description}</p>
+
+                    <div class="skill-metrics">
+                        <div class="metrics-row">
+                            <span class="metric-badge">📊 Test: ${skill.test_score}%</span>
+                            <span class="metric-badge">⭐ ${(skill.usage_count / 1000).toFixed(1)}k uses</span>
+                            <span class="metric-badge">v${skill.version}</span>
+                        </div>
+                        <div class="skill-footer">
+                            <div class="skill-author-info">
+                                <div class="author-avatar">${skill.authorInitial}</div>
+                                <span class="author-name">${skill.author}</span>
+                            </div>
+                            <button onclick="openSkillInstall('${skill.id}')" class="install-btn">
+                                Install
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadSponsoredAds() {
+            const container = document.getElementById('sponsoredSlots');
+            const ads = [
+                {
+                    icon: '🎯',
+                    title: 'Claude Pro',
+                    description: 'Unlock unlimited access to Claude with priority support and faster response times.',
+                    cta: 'Learn More'
+                },
+                {
+                    icon: '🚀',
+                    title: 'Advertise Here',
+                    description: 'Reach thousands of developers, creators, and founders using RightSkills daily.',
+                    cta: 'Book Now'
+                }
+            ];
+
+            container.innerHTML = ads.map(ad => `
+                <div class="sponsored-ad">
+                    <div class="sponsored-badge-top">SPONSORED</div>
+                    <div class="sponsored-content">
+                        <div class="icon">${ad.icon}</div>
+                        <h4>${ad.title}</h4>
+                        <p>${ad.description}</p>
+                        <button class="btn-primary" style="font-size: 0.875rem; padding: 0.5rem 1.25rem;" onclick="alert('${ad.cta} coming soon!')">
+                            ${ad.cta} →
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function sortSkills(sortBy) {
+            const container = document.getElementById('skills-container');
+            const cards = Array.from(container.children);
+
+            cards.sort((a, b) => {
+                // Placeholder sorting logic
+                return 0;
+            });
+
+            cards.forEach(card => container.appendChild(card));
+        }
+    </script>
+</body>
+</html>
