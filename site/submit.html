@@ -328,6 +328,7 @@
                 <a href="sponsor.html">Sponsor</a>
             </nav>
 
+            <button class="light-mode-btn" onclick="openLightModeModal()">☀️ Light Mode</button>
             <div class="header-buttons">
                 <a href="submit.html" class="btn-secondary">Submit Skill</a>
                 <a href="sponsor.html" class="btn-primary">Book Ad Space</a>
@@ -624,5 +625,28 @@
         // Initialize preview
         updatePreview();
     </script>
+
+    <!-- Light Mode Easter Egg Modal -->
+    <div id="lightModeModal" class="modal-overlay hidden">
+        <div class="modal-content light-mode-content">
+            <div class="thinking-emoji">
+                🤔
+                <span class="question-marks question-mark-1">❓</span>
+                <span class="question-marks question-mark-2">❔</span>
+                <span class="question-marks question-mark-3">❓</span>
+            </div>
+            <h3 class="light-mode-heading">Are you really a developer??</h3>
+            <p class="light-mode-subtext">Switching to light mode will blind you with raw white pixels and trigger immediate existential dread. Real developers embrace the void of obsidian dark mode.</p>
+            <div class="light-mode-buttons">
+                <button onclick="switchToDarkMode()" class="light-mode-btn-dark">
+                    🛡️ Switch back to Dark Mode (Phew!)
+                </button>
+                <button onclick="stayInLightMode()" class="light-mode-btn-light">
+                    ⚠️ Stay in Light Mode (At your own risk)
+                </button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

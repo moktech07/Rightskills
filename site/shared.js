@@ -428,3 +428,48 @@ ${stack.skills.map(skillId => {
         closeStackModal();
     });
 }
+
+// Light Mode Functions
+function openLightModeModal() {
+    const modal = document.getElementById('lightModeModal');
+    modal.classList.remove('hidden');
+}
+
+function closeLightModeModal() {
+    const modal = document.getElementById('lightModeModal');
+    modal.classList.add('hidden');
+}
+
+function switchToDarkMode() {
+    closeLightModeModal();
+    // Dark mode is already the default, just close the modal
+}
+
+function stayInLightMode() {
+    closeLightModeModal();
+    // Apply light mode theme to the document
+    document.documentElement.style.setProperty('--bg-primary', '#ffffff');
+    document.documentElement.style.setProperty('--bg-secondary', '#f5f5f5');
+    document.documentElement.style.setProperty('--bg-tertiary', '#eeeeee');
+    document.documentElement.style.setProperty('--border-color', '#e0e0e0');
+    document.body.style.color = '#09090b';
+
+    // Update the button text to indicate we're in light mode
+    const lightModeBtn = document.querySelector('.light-mode-btn');
+    if (lightModeBtn) {
+        lightModeBtn.textContent = '🌙 Dark Mode';
+        lightModeBtn.onclick = switchToDarkMode;
+    }
+}
+
+// Close modal when clicking on the overlay
+document.addEventListener('DOMContentLoaded', () => {
+    const lightModeModal = document.getElementById('lightModeModal');
+    if (lightModeModal) {
+        lightModeModal.addEventListener('click', (e) => {
+            if (e.target === lightModeModal) {
+                closeLightModeModal();
+            }
+        });
+    }
+});

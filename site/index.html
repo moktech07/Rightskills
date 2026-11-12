@@ -219,6 +219,7 @@
             </nav>
 
             <div class="header-buttons">
+                <button class="light-mode-btn" onclick="openLightModeModal()">☀️ Light Mode</button>
                 <a href="submit.html" class="btn-secondary">Submit Skill</a>
                 <a href="sponsor.html" class="btn-primary">Book Ad Space</a>
             </div>
@@ -435,6 +436,32 @@
 
                 <button onclick="installStack()" class="btn-primary" style="width: 100%; padding: 0.75rem 1.5rem; font-weight: bold; font-size: 0.875rem;">
                     Install This Stack
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Light Mode Modal -->
+    <div id="lightModeModal" class="modal-overlay hidden">
+        <div class="modal-content light-mode-content">
+            <div class="thinking-emoji">
+                🤔
+                <span class="question-marks question-mark-1">?</span>
+                <span class="question-marks question-mark-2">?</span>
+                <span class="question-marks question-mark-3">?</span>
+            </div>
+
+            <h3 class="light-mode-heading">Are you really a developer??</h3>
+            <p class="light-mode-subtext">
+                Light mode detected. We're genuinely concerned about your well-being. Developers are creatures of the night, sustained only by dark mode and cold brew coffee. Are you sure about this?
+            </p>
+
+            <div class="light-mode-buttons">
+                <button onclick="switchToDarkMode()" class="light-mode-btn-dark">
+                    🌙 Switch back to Dark Mode (Phew!)
+                </button>
+                <button onclick="stayInLightMode()" class="light-mode-btn-light">
+                    ☀️ Stay in Light Mode (At your own risk)
                 </button>
             </div>
         </div>
