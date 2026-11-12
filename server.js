@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = process.env.PORT || 3000;
-const SITE_DIR = path.join(__dirname, 'site');
 const API_DIR = path.join(__dirname, 'api');
 
 const mimeTypes = {
@@ -19,10 +18,9 @@ const mimeTypes = {
 };
 
 const server = http.createServer((req, res) => {
-  // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
   if (req.method === 'OPTIONS') {
     res.writeHead(200);
@@ -30,9 +28,9 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // API routes
-  if (req.url.startsWith('/api/v1/')) {
-    const apiPath = req.url.replace('/api/v1', '');
+  // API GET routes
+  if (req.method === 'GET' && req.url.startsWith('/api/v1/')) {
+    const apiPath = req.url.replace('/api/v1', '').split('?')[0];
 
     let filePath;
     if (apiPath === '/stacks') {
@@ -43,6 +41,8 @@ const server = http.createServer((req, res) => {
       filePath = path.join(API_DIR, 'v1', 'reviews', 'human.json');
     } else if (apiPath === '/reviews/agent') {
       filePath = path.join(API_DIR, 'v1', 'reviews', 'agent.json');
+    } else if (apiPath === '/scan-results') {
+      filePath = path.join(API_DIR, 'v1', 'scan-results.json');
     } else {
       res.writeHead(404, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({ error: 'Not found' }));
@@ -55,53 +55,46 @@ const server = http.createServer((req, res) => {
         res.end(JSON.stringify({ error: 'Not found' }));
         return;
       }
-
       res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(data);
     });
     return;
   }
 
-  // Static files
-  let cleanUrl = req.url.split('?')[0];
-  let filePath = path.join(SITE_DIR, cleanUrl === '/' ? 'index.html' : cleanUrl);
+  // API POST routes
+  if (req.method === 'POST' && req.url.startsWith('/api/v1/')) {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body || '{}');
+        const apiPath = req.url.replace('/api/v1', '').split('?')[0];
 
-  // Security: prevent directory traversal
-  if (!filePath.startsWith(SITE_DIR)) {
-    res.writeHead(403, { 'Content-Type': 'text/plain' });
-    res.end('Forbidden');
+        if (apiPath === '/reviews' || apiPath === '/submissions') {
+          res.writeHead(201, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, message: 'Submitted successfully and queued for review/scan.', data: payload }));
+        } else if (apiPath === '/recommendations') {
+          // Rule-based recommender mock
+          const skillsPath = path.join(API_DIR, 'v1', 'skills.json');
+          const skillsData = JSON.parse(fs.readFileSync(skillsPath, 'utf8')).skills || [];
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, recommended_stack: skillsData.slice(0, 3) }));
+        } else {
+          res.writeHead(404, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Endpoint not found' }));
+        }
+      } catch (e) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Invalid JSON payload' }));
+      }
+    });
     return;
   }
 
-  // Handle .html routes (catalog, stacks, submit, sponsor, etc.)
-  if (cleanUrl !== '/' && !path.extname(cleanUrl)) {
-    filePath = path.join(SITE_DIR, cleanUrl + '.html');
-  }
-
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      // Serve 404.html with 404 status
-      fs.readFile(path.join(SITE_DIR, '404.html'), (err404, data404) => {
-        if (err404) {
-          res.writeHead(404, { 'Content-Type': 'text/html' });
-          res.end('<h1>404 - Not Found</h1>');
-          return;
-        }
-        res.writeHead(404, { 'Content-Type': 'text/html' });
-        res.end(data404);
-      });
-      return;
-    }
-
-    const ext = path.extname(filePath);
-    const contentType = mimeTypes[ext] || 'application/octet-stream';
-
-    res.writeHead(200, { 'Content-Type': contentType });
-    res.end(data);
-  });
+  res.writeHead(404, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify({ error: 'Not found' }));
 });
 
 server.listen(PORT, () => {
-  console.log(`🚀 RightSkills server running on http://localhost:${PORT}`);
-  console.log(`📚 Open your browser and navigate to http://localhost:${PORT}`);
+  console.log(`🚀 RightSkills backend API server running on http://localhost:${PORT}`);
 });

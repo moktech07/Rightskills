@@ -1,0 +1,78 @@
+#!/usr/bin/env node
+/**
+ * RightSkills CLI Client for AI Agents and Developers
+ * Usage: rightskills search <query> | rightskills info <slug> | rightskills install <slug>
+ */
+
+const http = require('http');
+
+const API_BASE = process.env.RIGHTSKILLS_API || 'http://localhost:3000/api/v1';
+
+function fetchApi(endpoint) {
+    return new Promise((resolve, reject) => {
+        http.get(`${API_BASE}${endpoint}`, (res) => {
+            let data = '';
+            res.on('data', chunk => data += chunk);
+            res.on('end', () => {
+                try {
+                    resolve(JSON.parse(data));
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        }).on('error', reject);
+    });
+}
+
+async function main() {
+    const args = process.argv.slice(2);
+    const cmd = args[0];
+    const query = args[1];
+
+    if (!cmd || cmd === 'help') {
+        console.log(`
+RightSkills CLI (v1.0.0) - Verified agent skills registry
+Commands:
+  rightskills search <query>    Search available skills
+  rightskills info <slug>       View skill details & security grade
+  rightskills list              List all verified skills
+        `);
+        return;
+    }
+
+    try {
+        if (cmd === 'list' || cmd === 'search') {
+            const data = await fetchApi('/skills');
+            const skills = data.skills || [];
+            console.log(`\n📚 Verified Skills Catalog (${skills.length} total):\n`);
+            skills.forEach(s => {
+                if (!query || s.title.toLowerCase().includes(query.toLowerCase()) || s.id.includes(query)) {
+                    console.log(`- [${s.security_grade}] ${s.title} (${s.id}) v${s.version}`);
+                    console.log(`  ${s.description}`);
+                    console.log(`  Hash: ${s.source_hash}\n`);
+                }
+            });
+        } else if (cmd === 'info') {
+            if (!query) {
+                console.error("Please specify a skill slug (e.g. rightskills info precise-file-editor)");
+                process.exit(1);
+            }
+            const data = await fetchApi('/skills');
+            const skill = (data.skills || []).find(s => s.id === query);
+            if (!skill) {
+                console.error(`Skill '${query}' not found.`);
+                process.exit(1);
+            }
+            console.log(JSON.stringify(skill, null, 2));
+        } else {
+            console.error(`Unknown command: ${cmd}. Run 'rightskills help' for usage.`);
+        }
+    } catch (err) {
+        console.error("API connection error. Ensure RightSkills server is running (npm start).", err.message);
+        process.exit(1);
+    }
+}
+
+if (require.main === module) {
+    main();
+}
