@@ -1,0 +1,12 @@
+{
+  "id": "precise-file-editor",
+  "title": "Precise File Editor",
+  "description": "Guides AI agents to perform targeted search-and-replace edits without rewriting entire files, preventing context bloat and hallucinated regressions.",
+  "author": "RightSkills Core",
+  "version": "1.0.0",
+  "license": "MIT",
+  "target_apps": ["Claude Code", "Cursor", "Hermes Agent", "Codex"],
+  "jobs": ["Developer", "Software Engineering"],
+  "security_grade": "A",
+  "test_score": 95
+}

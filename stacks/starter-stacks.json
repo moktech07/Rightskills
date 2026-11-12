@@ -1,0 +1,30 @@
+[
+  {
+    "id": "developer-essentials",
+    "title": "Developer Essentials",
+    "description": "Essential skills for coding agents: precise editing, security auditing, and test-driven development.",
+    "jobs": ["Developer"],
+    "skills": ["precise-file-editor", "security-audit", "tdd-enforcer"]
+  },
+  {
+    "id": "exam-student",
+    "title": "Exam Prep & Study",
+    "description": "Master complex subjects with spaced repetition planners, doubt solvers, and past-paper analyzers.",
+    "jobs": ["Student"],
+    "skills": ["study-planner", "doubt-solver", "summarizer"]
+  },
+  {
+    "id": "content-creator",
+    "title": "Content Creator Suite",
+    "description": "Write viral hooks, structure video scripts, and repurpose long-form articles.",
+    "jobs": ["Creator", "Marketer"],
+    "skills": ["script-writer", "hook-generator", "content-repurposer"]
+  },
+  {
+    "id": "founder-freelancer",
+    "title": "Founder & Freelancer",
+    "description": "Draft client proposals, legal summaries, and cold outreach emails.",
+    "jobs": ["Founder", "Freelancer"],
+    "skills": ["proposal-writer", "contract-summarizer", "outreach-copilot"]
+  }
+]

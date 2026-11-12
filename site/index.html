@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RightSkills - Perfect Skills for Every Job</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75' fill='%2366cc99'>⚡</text></svg>">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .stack-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .stack-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .skill-badge {
+            transition: all 0.2s ease;
+        }
+
+        .skill-badge:hover {
+            transform: scale(1.05);
+        }
+
+        .grade-a { @apply bg-emerald-100 text-emerald-800; }
+        .grade-b { @apply bg-blue-100 text-blue-800; }
+        .grade-c { @apply bg-yellow-100 text-yellow-800; }
+        .grade-d { @apply bg-orange-100 text-orange-800; }
+        .grade-f { @apply bg-red-100 text-red-800; }
+
+        .modal-overlay {
+            backdrop-filter: blur(4px);
+        }
+
+        .donation-pulse {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .review-tab-active {
+            @apply border-b-2 border-purple-600 text-purple-600;
+        }
+
+        .review-tab {
+            @apply border-b-2 border-gray-300 text-gray-600 hover:text-gray-800;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <!-- Header with Donation Widget -->
+    <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="text-3xl">⚡</div>
+                <h1 class="text-2xl font-bold gradient-text">RightSkills</h1>
+            </div>
+
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#stacks" class="text-gray-600 hover:text-gray-900 transition">Stacks</a>
+                <a href="#skills" class="text-gray-600 hover:text-gray-900 transition">Skills</a>
+                <a href="#reviews" class="text-gray-600 hover:text-gray-900 transition">Reviews</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" class="donation-pulse inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-lg font-semibold hover:shadow-lg transition">
+                    <span>❤️</span>
+                    <span>Donate</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl sm:text-6xl font-bold mb-6">Skills Made Perfect for Every Job</h2>
+            <p class="text-xl sm:text-2xl text-purple-100 mb-8">Get expert-crafted skill stacks. One-click install. Powered by AI agents and human reviewers.</p>
+            <button onclick="document.getElementById('stacks').scrollIntoView({behavior: 'smooth'})" class="bg-white text-purple-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition">
+                Explore Stacks →
+            </button>
+        </div>
+    </section>
+
+    <!-- Job-Based Stacks Browser -->
+    <section id="stacks" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold mb-4">Choose Your Path</h3>
+                <p class="text-xl text-gray-600">Pre-curated skill stacks designed for your role</p>
+            </div>
+
+            <div class="mb-8">
+                <input type="text" id="stackSearchInput" placeholder="Search stacks..." class="w-full px-4 py-3 bg-gray-100 text-gray-900 rounded-lg border border-gray-300 focus:border-purple-500 focus:outline-none placeholder-gray-500" oninput="searchItems()">
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6" id="stacks-container">
+                <!-- Stacks loaded via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Skill Catalog -->
+    <section id="skills" class="py-20 px-4 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold mb-4">Skill Catalog</h3>
+                <p class="text-xl text-gray-400">Browse all available skills with security grades and test coverage</p>
+            </div>
+
+            <div class="space-y-4 mb-8">
+                <div>
+                    <input type="text" id="searchInput" placeholder="Search skills and stacks..." class="w-full px-4 py-3 bg-gray-800 text-white rounded-lg border border-gray-700 focus:border-purple-500 focus:outline-none placeholder-gray-400" oninput="searchItems()">
+                </div>
+                <div class="flex gap-4 flex-wrap">
+                    <button onclick="filterSkills('all')" class="px-6 py-2 rounded-lg bg-purple-600 text-white font-semibold hover:bg-purple-700">All</button>
+                    <button onclick="filterSkills('Developer')" class="px-6 py-2 rounded-lg bg-gray-700 text-white font-semibold hover:bg-gray-600">Developer</button>
+                    <button onclick="filterSkills('Creator')" class="px-6 py-2 rounded-lg bg-gray-700 text-white font-semibold hover:bg-gray-600">Creator</button>
+                    <button onclick="filterSkills('Student')" class="px-6 py-2 rounded-lg bg-gray-700 text-white font-semibold hover:bg-gray-600">Student</button>
+                    <button onclick="filterSkills('Founder')" class="px-6 py-2 rounded-lg bg-gray-700 text-white font-semibold hover:bg-gray-600">Founder</button>
+                </div>
+            </div>
+
+            <div id="skills-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Skills loaded via JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h3 class="text-4xl font-bold mb-4">Community Reviews</h3>
+                <p class="text-xl text-gray-600">See what humans and AI agents think about our skills</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Human Reviews -->
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h4 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                        <span>👥</span> Human Reviews
+                    </h4>
+                    <div id="human-reviews" class="space-y-4">
+                        <!-- Reviews loaded via JS -->
+                    </div>
+                </div>
+
+                <!-- Agent Reviews -->
+                <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-xl shadow-lg p-8">
+                    <h4 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                        <span>🤖</span> Agent Reviews
+                    </h4>
+                    <div id="agent-reviews" class="space-y-4">
+                        <!-- Reviews loaded via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donation Section in Footer -->
+    <footer class="bg-gray-900 text-white py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="text-2xl">⚡</div>
+                        <h4 class="text-xl font-bold">RightSkills</h4>
+                    </div>
+                    <p class="text-gray-400">Perfect skills for every job, one-click install away.</p>
+                </div>
+
+                <div>
+                    <h5 class="font-bold mb-4">Quick Links</h5>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#stacks" class="hover:text-white transition">Stacks</a></li>
+                        <li><a href="#skills" class="hover:text-white transition">Skills</a></li>
+                        <li><a href="#reviews" class="hover:text-white transition">Reviews</a></li>
+                    </ul>
+                </div>
+
+                <div class="text-center">
+                    <h5 class="font-bold mb-4">Support Us</h5>
+                    <div class="flex flex-col gap-3">
+                        <a href="https://ko-fi.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-lg font-semibold hover:shadow-lg transition">
+                            <span>❤️</span>
+                            <span>Buy Me a Coffee</span>
+                        </a>
+                        <p class="text-sm text-gray-400">Help us keep skills perfect</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-400">
+                <p>&copy; 2026 RightSkills. Built with ⚡ and ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Install Modal -->
+    <div id="installModal" class="fixed inset-0 hidden modal-overlay z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full">
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h4 id="modalTitle" class="text-2xl font-bold">Install Skill</h4>
+                    <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                </div>
+
+                <div id="installOptions" class="space-y-3">
+                    <button onclick="copyToClipboard()" class="w-full flex items-center gap-3 p-4 border-2 border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition font-semibold">
+                        <span class="text-2xl">📋</span>
+                        <span>Copy for Chat</span>
+                    </button>
+
+                    <button onclick="downloadMarkdown()" class="w-full flex items-center gap-3 p-4 border-2 border-gray-300 rounded-lg hover:border-green-500 hover:bg-green-50 transition font-semibold">
+                        <span class="text-2xl">📄</span>
+                        <span>Download as .md</span>
+                    </button>
+
+                    <button onclick="downloadZip()" class="w-full flex items-center gap-3 p-4 border-2 border-gray-300 rounded-lg hover:border-orange-500 hover:bg-orange-50 transition font-semibold">
+                        <span class="text-2xl">📦</span>
+                        <span>Download ZIP</span>
+                    </button>
+                </div>
+
+                <div id="copyFeedback" class="hidden mt-4 p-3 bg-green-100 text-green-800 rounded-lg text-center font-semibold">
+                    ✓ Copied to clipboard!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stack Detail Modal -->
+    <div id="stackModal" class="fixed inset-0 hidden modal-overlay z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h4 id="stackModalTitle" class="text-3xl font-bold mb-2"></h4>
+                        <p id="stackModalDesc" class="text-gray-600"></p>
+                    </div>
+                    <button onclick="closeStackModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+                </div>
+
+                <div class="mb-8">
+                    <h5 class="text-lg font-bold mb-4">Skills in this stack:</h5>
+                    <div id="stackSkillsList" class="space-y-3">
+                        <!-- Skills listed here -->
+                    </div>
+                </div>
+
+                <button onclick="installStack()" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-bold text-lg hover:shadow-lg transition">
+                    Install This Stack
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

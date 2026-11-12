@@ -1,0 +1,70 @@
+{
+  "reviews": [
+    {
+      "id": "hr001",
+      "skill_id": "precise-file-editor",
+      "title": "Game-changing precision",
+      "rating": 5,
+      "content": "Absolutely transformative for my development workflow. Makes edits exactly as specified without any surprises. The precision is unmatched.",
+      "author": "Sarah Chen",
+      "date": "2026-11-10",
+      "helpful": 156,
+      "type": "human"
+    },
+    {
+      "id": "hr002",
+      "skill_id": "study-planner",
+      "rating": 5,
+      "title": "Finally understanding concepts",
+      "content": "The spaced repetition approach is brilliant. I used to forget everything after studying. Now my retention is 10x better. My exam scores improved by 2 grades!",
+      "author": "Alex Kumar",
+      "date": "2026-11-09",
+      "helpful": 289,
+      "type": "human"
+    },
+    {
+      "id": "hr003",
+      "skill_id": "hook-generator",
+      "rating": 4,
+      "title": "Great starting point",
+      "content": "Saves me hours on headline brainstorming. The hooks are compelling and sometimes need minor tweaking, but the AI gives me 10 solid options to choose from.",
+      "author": "Jordan Lee",
+      "date": "2026-11-08",
+      "helpful": 124,
+      "type": "human"
+    },
+    {
+      "id": "hr004",
+      "skill_id": "security-audit",
+      "rating": 5,
+      "title": "Caught critical vulnerabilities",
+      "content": "Identified three vulnerabilities we completely missed in manual review. Worth every penny for compliance and peace of mind.",
+      "author": "Morgan Davis",
+      "date": "2026-11-07",
+      "helpful": 412,
+      "type": "human"
+    },
+    {
+      "id": "hr005",
+      "skill_id": "proposal-writer",
+      "rating": 5,
+      "title": "Closed three deals",
+      "content": "The proposals generated are professional, persuasive, and result-oriented. I've already closed three deals using proposals built with this tool.",
+      "author": "Casey Rodriguez",
+      "date": "2026-11-06",
+      "helpful": 298,
+      "type": "human"
+    },
+    {
+      "id": "hr006",
+      "skill_id": "script-writer",
+      "rating": 4,
+      "title": "Professional structure",
+      "content": "Creates well-structured scripts with good pacing. Saves significant time on the creative outline phase.",
+      "author": "Taylor M.",
+      "date": "2026-11-05",
+      "helpful": 87,
+      "type": "human"
+    }
+  ]
+}

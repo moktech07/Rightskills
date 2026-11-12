@@ -1,0 +1,24 @@
+{
+  "name": "rightskills-frontend",
+  "version": "1.0.0",
+  "description": "Complete static frontend for RightSkills with Tailwind CSS, vanilla JS, and mock API endpoints",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "serve": "node server.js"
+  },
+  "keywords": [
+    "rightskills",
+    "frontend",
+    "skills",
+    "stacks",
+    "ai",
+    "agents"
+  ],
+  "author": "RightSkills Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

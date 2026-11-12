@@ -1,0 +1,44 @@
+{
+  "stacks": [
+    {
+      "id": "developer-essentials",
+      "title": "Developer Essentials",
+      "description": "Essential skills for coding agents: precise editing, security auditing, and test-driven development.",
+      "icon": "💻",
+      "jobs": ["Developer"],
+      "skills": ["precise-file-editor", "security-audit", "tdd-enforcer"],
+      "popularity": 1245,
+      "rating": 4.8
+    },
+    {
+      "id": "exam-student",
+      "title": "Exam Prep & Study",
+      "description": "Master complex subjects with spaced repetition planners, doubt solvers, and past-paper analyzers.",
+      "icon": "📚",
+      "jobs": ["Student"],
+      "skills": ["study-planner", "doubt-solver", "summarizer"],
+      "popularity": 892,
+      "rating": 4.9
+    },
+    {
+      "id": "content-creator",
+      "title": "Content Creator Suite",
+      "description": "Write viral hooks, structure video scripts, and repurpose long-form articles.",
+      "icon": "🎬",
+      "jobs": ["Creator", "Marketer"],
+      "skills": ["script-writer", "hook-generator", "content-repurposer"],
+      "popularity": 1567,
+      "rating": 4.7
+    },
+    {
+      "id": "founder-freelancer",
+      "title": "Founder & Freelancer",
+      "description": "Draft client proposals, legal summaries, and cold outreach emails.",
+      "icon": "🚀",
+      "jobs": ["Founder", "Freelancer"],
+      "skills": ["proposal-writer", "contract-summarizer", "outreach-copilot"],
+      "popularity": 743,
+      "rating": 4.9
+    }
+  ]
+}
