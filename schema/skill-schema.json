@@ -3,29 +3,68 @@
   "title": "RightSkillsSkillMetadata",
   "type": "object",
   "properties": {
-    "id": { "type": "string" },
-    "title": { "type": "string" },
-    "description": { "type": "string" },
-    "author": { "type": "string" },
-    "version": { "type": "string" },
-    "license": { "type": "string" },
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "license": {
+      "type": "string"
+    },
     "target_apps": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
     "jobs": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
     "security_grade": {
       "type": "string",
-      "enum": ["A", "B", "C", "D", "F"]
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "F"
+      ]
     },
     "test_score": {
       "type": "number",
       "minimum": 0,
       "maximum": 100
+    },
+    "commit_sha": {
+      "type": "string"
+    },
+    "source_hash": {
+      "type": "string"
     }
   },
-  "required": ["id", "title", "description", "author", "version", "license", "target_apps", "jobs"]
+  "required": [
+    "id",
+    "title",
+    "description",
+    "author",
+    "version",
+    "license",
+    "target_apps",
+    "jobs",
+    "commit_sha",
+    "source_hash"
+  ]
 }

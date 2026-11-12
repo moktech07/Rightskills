@@ -22,7 +22,9 @@
         "editing",
         "code",
         "refactoring"
-      ]
+      ],
+      "commit_sha": "d07166b2a3f4e5c6d7e8f9a0b1c2d3e4f5a6b7c8",
+      "source_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "id": "security-audit",
@@ -46,7 +48,9 @@
         "security",
         "audit",
         "compliance"
-      ]
+      ],
+      "commit_sha": "d07166b2a3f4e5c6d7e8f9a0b1c2d3e4f5a6b7c8",
+      "source_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "id": "study-planner",
@@ -69,7 +73,9 @@
         "education",
         "study",
         "planning"
-      ]
+      ],
+      "commit_sha": "d07166b2a3f4e5c6d7e8f9a0b1c2d3e4f5a6b7c8",
+      "source_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "id": "script-writer",
@@ -93,7 +99,9 @@
         "content",
         "video",
         "copywriting"
-      ]
+      ],
+      "commit_sha": "d07166b2a3f4e5c6d7e8f9a0b1c2d3e4f5a6b7c8",
+      "source_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "id": "proposal-writer",
@@ -117,7 +125,9 @@
         "business",
         "proposals",
         "sales"
-      ]
+      ],
+      "commit_sha": "d07166b2a3f4e5c6d7e8f9a0b1c2d3e4f5a6b7c8",
+      "source_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
   ]
 }
