@@ -1,4 +1,3 @@
-// Global state
 let allSkills = [];
 let allStacks = [];
 let currentFilter = 'all';
@@ -6,7 +5,6 @@ let currentSearch = '';
 let selectedSkill = null;
 let selectedStack = null;
 
-// Initialize app
 document.addEventListener('DOMContentLoaded', async () => {
     await loadStacks();
     await loadSkills();
@@ -15,14 +13,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderSkills();
 });
 
-// Load stacks from API
 async function loadStacks() {
     try {
         const response = await fetch('/api/v1/stacks');
         allStacks = await response.json();
     } catch (error) {
-        console.error('Failed to load stacks:', error);
-        // Fallback to hardcoded stacks
         allStacks = [
             {
                 id: "developer-essentials",
@@ -60,14 +55,11 @@ async function loadStacks() {
     }
 }
 
-// Load skills from API
 async function loadSkills() {
     try {
         const response = await fetch('/api/v1/skills');
         allSkills = await response.json();
     } catch (error) {
-        console.error('Failed to load skills:', error);
-        // Fallback to sample skills
         allSkills = [
             {
                 id: "precise-file-editor",
@@ -169,29 +161,24 @@ async function loadSkills() {
     }
 }
 
-// Load reviews from API
 async function loadReviews() {
     try {
         const humanRes = await fetch('/api/v1/reviews/human');
         const agentRes = await fetch('/api/v1/reviews/agent');
-
         const humanReviews = await humanRes.json();
         const agentReviews = await agentRes.json();
-
         renderHumanReviews(humanReviews);
         renderAgentReviews(agentReviews);
     } catch (error) {
-        console.error('Failed to load reviews:', error);
         renderHumanReviews(getDefaultHumanReviews());
         renderAgentReviews(getDefaultAgentReviews());
     }
 }
 
-// Render stacks
 function renderStacks() {
     const container = document.getElementById('stacks-container');
-
     let filtered = allStacks;
+
     if (currentSearch) {
         const query = currentSearch.toLowerCase();
         filtered = allStacks.filter(stack =>
@@ -202,22 +189,21 @@ function renderStacks() {
     }
 
     container.innerHTML = filtered.map(stack => `
-        <div class="stack-card bg-white rounded-xl shadow-lg p-6 border border-gray-200 cursor-pointer" onclick="openStackModal('${stack.id}')">
-            <div class="text-4xl mb-4">${stack.icon || '⚡'}</div>
-            <h4 class="text-xl font-bold mb-2">${stack.title}</h4>
-            <p class="text-gray-600 text-sm mb-4">${stack.description}</p>
+        <div class="glass-card card-hover rounded-xl p-6 cursor-pointer" onclick="openStackModal('${stack.id}')">
+            <div class="icon-container text-3xl mb-4">${stack.icon || '⚡'}</div>
+            <h4 class="text-base font-bold mb-2">${stack.title}</h4>
+            <p class="text-sm text-gray-400 mb-4 line-clamp-2">${stack.description}</p>
             <div class="flex flex-wrap gap-2">
-                ${stack.jobs.map(job => `<span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full">${job}</span>`).join('')}
+                ${stack.jobs.map(job => `<span class="px-2 py-1 text-xs font-semibold rounded-full glow-badge text-white">${job}</span>`).join('')}
             </div>
         </div>
     `).join('');
 }
 
-// Render skills with filter
 function renderSkills() {
     const container = document.getElementById('skills-container');
-
     let filtered = allSkills;
+
     if (currentFilter !== 'all') {
         filtered = allSkills.filter(skill => skill.jobs.includes(currentFilter));
     }
@@ -233,47 +219,40 @@ function renderSkills() {
     }
 
     container.innerHTML = filtered.map(skill => `
-        <div class="skill-badge bg-gray-800 rounded-lg p-6 border border-gray-700 hover:border-purple-500 transition cursor-pointer" onclick="openInstallModal('${skill.id}')">
-            <div class="flex items-start justify-between mb-3">
-                <div>
-                    <div class="text-3xl mb-2">${skill.icon || '⚙️'}</div>
-                    <h5 class="text-lg font-bold text-white">${skill.title}</h5>
-                </div>
-                <span class="grade-${skill.security_grade.toLowerCase()} px-3 py-1 rounded font-bold text-sm">
+        <div class="glass-card skill-card-hover rounded-xl p-6 cursor-pointer" onclick="openInstallModal('${skill.id}')">
+            <div class="flex items-start justify-between mb-4">
+                <div class="icon-container text-2xl">${skill.icon || '⚙️'}</div>
+                <span class="grade-${skill.security_grade.toLowerCase()} px-2 py-1 rounded-md font-bold text-xs">
                     Grade ${skill.security_grade}
                 </span>
             </div>
-            <p class="text-gray-300 text-sm mb-4">${skill.description}</p>
-            <div class="flex items-center justify-between">
+            <h5 class="text-base font-bold mb-2">${skill.title}</h5>
+            <p class="text-sm text-gray-400 mb-4 line-clamp-2">${skill.description}</p>
+            <div class="flex items-center justify-between pt-4 border-t border-zinc-700">
                 <div class="flex items-center gap-2">
-                    <span class="text-yellow-400">⭐</span>
-                    <span class="text-gray-300 text-sm">${skill.test_score}% tests</span>
+                    <span>⭐</span>
+                    <span class="text-xs text-gray-400">${skill.test_score}% tests</span>
                 </div>
-                <span class="text-gray-400 text-xs">${skill.version}</span>
+                <span class="text-xs text-gray-500">${skill.version}</span>
             </div>
         </div>
     `).join('');
 }
 
-// Filter skills
 function filterSkills(job) {
     currentFilter = job;
     currentSearch = '';
     document.getElementById('searchInput').value = '';
     document.getElementById('stackSearchInput').value = '';
-    // Update button states
-    document.querySelectorAll('#skills .space-y-4 button, #skills .flex.gap-4 button').forEach((btn, idx) => {
-        const jobs = ['all', 'Developer', 'Creator', 'Student', 'Founder'];
-        if (jobs[idx] === job) {
-            btn.className = 'px-6 py-2 rounded-lg bg-purple-600 text-white font-semibold hover:bg-purple-700';
-        } else {
-            btn.className = 'px-6 py-2 rounded-lg bg-gray-700 text-white font-semibold hover:bg-gray-600';
-        }
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
     });
+
+    event.target.classList.add('active');
     renderSkills();
 }
 
-// Search items
 function searchItems() {
     const skillSearch = document.getElementById('searchInput');
     const stackSearch = document.getElementById('stackSearchInput');
@@ -282,63 +261,60 @@ function searchItems() {
     renderStacks();
 }
 
-// Render human reviews
 function renderHumanReviews(reviews) {
     const container = document.getElementById('human-reviews');
     container.innerHTML = reviews.map(review => `
-        <div class="bg-gray-100 rounded-lg p-4 border-l-4 border-blue-500">
+        <div class="p-4 rounded-lg border border-zinc-800 bg-opacity-50 hover:bg-opacity-100 transition">
             <div class="flex items-center justify-between mb-2">
-                <h6 class="font-bold text-gray-900">${review.title}</h6>
+                <h6 class="text-sm font-semibold">${review.title}</h6>
                 <div class="flex gap-1">
-                    ${[...Array(5)].map((_, i) => `<span class="text-lg">${i < review.rating ? '⭐' : '☆'}</span>`).join('')}
+                    ${[...Array(5)].map((_, i) => `<span class="text-xs">${i < review.rating ? '⭐' : '☆'}</span>`).join('')}
                 </div>
             </div>
-            <p class="text-gray-700 text-sm">${review.content}</p>
-            <p class="text-gray-500 text-xs mt-2">— ${review.author}</p>
+            <p class="text-sm text-gray-400 mb-3">${review.content}</p>
+            <p class="text-xs text-gray-600">— ${review.author}</p>
         </div>
     `).join('');
 }
 
-// Render agent reviews
 function renderAgentReviews(reviews) {
     const container = document.getElementById('agent-reviews');
     container.innerHTML = reviews.map(review => `
-        <div class="bg-white rounded-lg p-4 border-l-4 border-purple-500">
+        <div class="p-4 rounded-lg border border-zinc-800 bg-opacity-50 hover:bg-opacity-100 transition">
             <div class="flex items-center justify-between mb-2">
-                <h6 class="font-bold text-gray-900">${review.title}</h6>
-                <span class="text-2xl">🤖</span>
+                <h6 class="text-sm font-semibold">${review.title}</h6>
+                <span class="text-lg">🤖</span>
             </div>
-            <p class="text-gray-700 text-sm">${review.content}</p>
-            <p class="text-gray-500 text-xs mt-2">— ${review.agent}</p>
+            <p class="text-sm text-gray-400 mb-3">${review.content}</p>
+            <p class="text-xs text-gray-600">— ${review.agent}</p>
         </div>
     `).join('');
 }
 
-// Default reviews
 function getDefaultHumanReviews() {
     return [
         {
             title: "Precise File Editor",
             rating: 5,
-            content: "Absolutely game-changing for my development workflow. Edits code exactly as specified.",
+            content: "Game-changing for my development workflow. Edits code exactly as specified.",
             author: "Sarah Chen"
         },
         {
             title: "Study Planner",
             rating: 5,
-            content: "Finally understood complex topics thanks to the spaced repetition approach. My grades improved!",
+            content: "Finally understood complex topics. Spaced repetition approach actually works.",
             author: "Alex Kumar"
         },
         {
             title: "Hook Generator",
             rating: 4,
-            content: "Great starting point for content. Sometimes needs tweaking but saves hours.",
+            content: "Great starting point. Sometimes needs tweaking but saves hours.",
             author: "Jordan Lee"
         },
         {
             title: "Security Auditor",
             rating: 5,
-            content: "Caught vulnerabilities we missed. Worth its weight in gold for compliance.",
+            content: "Caught vulnerabilities we missed. Worth its weight in gold.",
             author: "Morgan Davis"
         }
     ];
@@ -349,31 +325,30 @@ function getDefaultAgentReviews() {
         {
             title: "Precise File Editor",
             rating: 5,
-            content: "Demonstrates excellent pattern matching and contextual awareness. Minimal errors.",
+            content: "Excellent pattern matching and contextual awareness. Minimal errors.",
             agent: "Claude Security Review"
         },
         {
             title: "TDD Enforcer",
             rating: 5,
-            content: "Robust test generation. Covers edge cases effectively. Strong mutation testing results.",
+            content: "Robust test generation. Covers edge cases effectively.",
             agent: "QA Bot"
         },
         {
             title: "Content Repurposer",
             rating: 4,
-            content: "Handles format conversion well. Some semantic nuances require human review.",
+            content: "Handles format conversion well. Some nuances require human review.",
             agent: "Content Analysis AI"
         },
         {
             title: "Proposal Writer",
             rating: 5,
-            content: "Generates professionally formatted proposals with strong persuasive elements.",
+            content: "Professional formatting with strong persuasive elements.",
             agent: "Business Process AI"
         }
     ];
 }
 
-// Modal functions
 function openInstallModal(skillId) {
     selectedSkill = allSkills.find(s => s.id === skillId);
     if (selectedSkill) {
@@ -397,12 +372,12 @@ function openStackModal(stackId) {
         const stackSkills = allSkills.filter(skill => selectedStack.skills.includes(skill.id));
 
         skillsList.innerHTML = stackSkills.map(skill => `
-            <div class="flex items-center justify-between p-3 bg-gray-100 rounded-lg">
+            <div class="flex items-center justify-between p-4 glass-card rounded-lg">
                 <div>
-                    <h6 class="font-semibold text-gray-900">${skill.title}</h6>
-                    <p class="text-sm text-gray-600">${skill.description}</p>
+                    <h6 class="font-semibold text-sm">${skill.title}</h6>
+                    <p class="text-xs text-gray-400 mt-1">${skill.description}</p>
                 </div>
-                <span class="grade-${skill.security_grade.toLowerCase()} px-3 py-1 rounded font-bold">
+                <span class="grade-${skill.security_grade.toLowerCase()} px-2 py-1 rounded-md font-bold text-xs whitespace-nowrap ml-4">
                     ${skill.security_grade}
                 </span>
             </div>
@@ -424,7 +399,6 @@ function installStack() {
     }
 }
 
-// Install options
 async function copyToClipboard() {
     const skillInfo = selectedSkill ? selectedSkill : selectedStack;
     const text = `Skill/Stack: ${skillInfo.title}\n\nID: ${skillInfo.id}\n\nDescription:\n${skillInfo.description}`;
@@ -447,15 +421,23 @@ function showCopyFeedback() {
 
 function downloadZip() {
     const skillInfo = selectedSkill ? selectedSkill : selectedStack;
-    alert(`📦 Download functionality would generate a ZIP file containing:\n\n✓ ${skillInfo.title}\n✓ Documentation\n✓ Configuration files\n\nIn a production environment, this would trigger a server-side ZIP generation.`);
+    alert(`📦 Download functionality would generate a ZIP file containing:\n\n✓ ${skillInfo.title}\n✓ Documentation\n✓ Configuration files\n\nIn production, this triggers server-side ZIP generation.`);
 }
 
-function writeToFile() {
+function downloadMarkdown() {
     const skillInfo = selectedSkill ? selectedSkill : selectedStack;
-    alert(`💾 Browser write functionality:\n\n✓ Would create a new file: ${skillInfo.id}.json\n✓ With full skill configuration\n✓ Ready to import\n\nNote: This requires File System Access API permissions.`);
+    const markdown = `# ${skillInfo.title}\n\n${skillInfo.description}\n\nID: ${skillInfo.id}`;
+    const blob = new Blob([markdown], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${skillInfo.id}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
 
-// Close modals on outside click
 document.addEventListener('click', (e) => {
     const installModal = document.getElementById('installModal');
     const stackModal = document.getElementById('stackModal');
@@ -468,7 +450,6 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// Keyboard shortcuts
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeModal();
