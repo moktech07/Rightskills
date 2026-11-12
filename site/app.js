@@ -218,25 +218,138 @@ function renderSkills() {
         );
     }
 
-    container.innerHTML = filtered.map(skill => `
-        <div class="glass-card skill-card-hover rounded-xl p-6 cursor-pointer" onclick="openInstallModal('${skill.id}')">
-            <div class="flex items-start justify-between mb-4">
-                <div class="icon-container text-2xl">${skill.icon || '⚙️'}</div>
-                <span class="grade-${skill.security_grade.toLowerCase()} px-2 py-1 rounded-md font-bold text-xs">
-                    Grade ${skill.security_grade}
+    const sponsored = getSponsoredSkills();
+    const withSponsored = injectSponsoredTiles(filtered, sponsored);
+
+    container.innerHTML = withSponsored.map((item, idx) => {
+        if (item.type === 'sponsored') {
+            return renderSponsoredSkillTile(item, idx);
+        }
+        return renderSkillTile(item);
+    }).join('');
+}
+
+function renderSkillTile(skill) {
+    const authorInitial = skill.author.charAt(0).toUpperCase();
+    const isVerified = skill.security_grade === 'A';
+
+    return `
+        <div class="glass-card skill-card-hover data-dense-card rounded-xl p-5 cursor-pointer" onclick="openInstallModal('${skill.id}')">
+            <div class="data-dense-header">
+                <div class="data-dense-title-section">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-lg">${skill.icon || '⚙️'}</span>
+                        ${isVerified ? '<div class="verified-icon">✓</div>' : ''}
+                    </div>
+                    <h5 class="text-sm font-bold leading-tight">${skill.title}</h5>
+                </div>
+                <span class="grade-${skill.security_grade.toLowerCase()} px-2.5 py-1 rounded-md font-bold text-xs whitespace-nowrap">
+                    ${skill.security_grade}
                 </span>
             </div>
-            <h5 class="text-base font-bold mb-2">${skill.title}</h5>
-            <p class="text-sm text-gray-400 mb-4 line-clamp-2">${skill.description}</p>
-            <div class="flex items-center justify-between pt-4 border-t border-zinc-700">
-                <div class="flex items-center gap-2">
-                    <span>⭐</span>
-                    <span class="text-xs text-gray-400">${skill.test_score}% tests</span>
+
+            <p class="text-xs text-gray-400 mb-4 line-clamp-2">${skill.description}</p>
+
+            <div class="data-dense-metrics">
+                <div class="stats-row">
+                    <div class="metric-badge">
+                        <span>📊</span>
+                        <span>${skill.test_score}% coverage</span>
+                    </div>
+                    <div class="metric-badge">
+                        <span>📦</span>
+                        <span>v${skill.version}</span>
+                    </div>
                 </div>
-                <span class="text-xs text-gray-500">${skill.version}</span>
+
+                <div class="data-dense-author">
+                    <div class="author-avatar">${authorInitial}</div>
+                    <div>
+                        <div class="data-dense-author-name">${skill.author}</div>
+                    </div>
+                </div>
             </div>
         </div>
-    `).join('');
+    `;
+}
+
+function renderSponsoredSkillTile(sponsored, idx) {
+    return `
+        <div class="sponsored-card skill-card-hover data-dense-card rounded-xl p-5 cursor-pointer" onclick="openInstallModal('${sponsored.id}')">
+            <span class="sponsored-badge">Sponsored</span>
+
+            <div class="data-dense-header">
+                <div class="data-dense-title-section">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-lg">${sponsored.icon || '⭐'}</span>
+                    </div>
+                    <h5 class="text-sm font-bold leading-tight text-indigo-300">${sponsored.title}</h5>
+                </div>
+            </div>
+
+            <p class="text-xs text-gray-300 mb-4 line-clamp-2">${sponsored.description}</p>
+
+            <div class="data-dense-metrics">
+                <div class="stats-row">
+                    <div class="metric-badge" style="background-color: rgba(129, 140, 248, 0.15); border-color: rgba(129, 140, 248, 0.4);">
+                        <span>⚡</span>
+                        <span>${sponsored.installs || '10K+'}+ installs</span>
+                    </div>
+                    <div class="metric-badge" style="background-color: rgba(129, 140, 248, 0.15); border-color: rgba(129, 140, 248, 0.4);">
+                        <span>✓</span>
+                        <span>${sponsored.successRate || '98'}% success</span>
+                    </div>
+                </div>
+
+                <div class="data-dense-author">
+                    <div class="author-avatar" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-color: rgba(245, 158, 11, 0.3);">
+                        ${sponsored.authorInitial || '🎯'}
+                    </div>
+                    <div>
+                        <div class="data-dense-author-name">${sponsored.author}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function getSponsoredSkills() {
+    return [
+        {
+            id: 'sponsored-agent-stack',
+            type: 'sponsored',
+            title: 'Sponsored Agent Stack',
+            description: 'Complete multi-agent orchestration framework with pre-built integrations.',
+            icon: '🤖',
+            author: 'Premium Partner',
+            authorInitial: '📍',
+            installs: '50K',
+            successRate: 99
+        },
+        {
+            id: 'promoted-skill-pro',
+            type: 'sponsored',
+            title: 'Promoted Skill Pro',
+            description: 'Enterprise-grade skill suite with advanced analytics and monitoring.',
+            icon: '💎',
+            author: 'Enterprise Team',
+            authorInitial: '⚡',
+            installs: '25K',
+            successRate: 99
+        }
+    ];
+}
+
+function injectSponsoredTiles(filtered, sponsored) {
+    const result = [...filtered];
+    if (result.length > 3) {
+        result.splice(3, 0, sponsored[0]);
+    }
+    if (result.length > 8) {
+        result.splice(8, 0, sponsored[1]);
+    }
+    return result;
 }
 
 function filterSkills(job) {
