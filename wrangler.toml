@@ -1,0 +1,22 @@
+name = "rightskills"
+compatibility_date = "2026-11-12"
+main = "server.js"
+build = { command = "npm run build", cwd = "./" }
+
+[site]
+bucket = "./site"
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
+routes = [
+  { pattern = "rightskills.dev/*", zone_name = "rightskills.dev" }
+]
+
+[env.staging]
+vars = { ENVIRONMENT = "staging" }
+routes = [
+  { pattern = "staging.rightskills.dev/*", zone_name = "rightskills.dev" }
+]
+
+[vars]
+ENVIRONMENT = "production"
