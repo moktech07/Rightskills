@@ -2,6 +2,7 @@
 """
 RightSkills Security Audit Scanner (CI rule-based analyzer)
 Scans skill markdown files for prompt injection, hidden unicode, shell execution, and exfiltration.
+Outputs scan-results.json for frontend consumption.
 """
 
 import os
@@ -62,6 +63,13 @@ def main():
         if os.path.isdir(skill_path):
             results[item] = audit_skill(skill_path)
             
+    # Save output to api/v1/scan-results.json
+    output_path = os.path.join('api', 'v1', 'scan-results.json')
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    with open(output_path, 'w', encoding='utf-8') as f:
+        json.dump(results, f, indent=2)
+        
+    print(f"Security audit complete. Results saved to {output_path}")
     print(json.dumps(results, indent=2))
 
 if __name__ == '__main__':
