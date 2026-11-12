@@ -8,50 +8,51 @@
     <link rel="stylesheet" href="shared.css">
     <style>
         .hero-section {
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            background: var(--bg-primary);
             border-bottom: 1px solid var(--border-color);
         }
 
         .hero-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 3rem;
+            gap: 4rem;
             align-items: center;
-            padding: 6rem 1.5rem;
+            padding: 5rem 1.5rem;
         }
 
         @media (min-width: 1024px) {
             .hero-grid {
                 grid-template-columns: 1fr 1fr;
-                padding: 6rem 1.5rem;
+                padding: 5rem 1.5rem;
             }
         }
 
         .hero-content h2 {
             font-size: 3.5rem;
-            font-weight: bold;
-            line-height: 1.1;
-            margin: 1.5rem 0;
-            letter-spacing: -0.025em;
+            font-weight: 700;
+            line-height: 1.15;
+            margin: 1.5rem 0 1rem 0;
+            letter-spacing: -0.03em;
+            color: var(--text-primary);
         }
 
         @media (max-width: 768px) {
             .hero-content h2 {
-                font-size: 2.25rem;
+                font-size: 2.125rem;
                 text-align: center;
             }
         }
 
         .hero-content p {
-            font-size: 1.125rem;
-            color: #a1a1aa;
+            font-size: 1rem;
+            color: var(--text-secondary);
             line-height: 1.7;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .hero-content .btn-primary {
-            font-size: 1rem;
-            padding: 0.75rem 2rem;
+            font-size: 0.95rem;
+            padding: 0.625rem 1.75rem;
         }
 
         .tilt-card-container {
@@ -69,11 +70,10 @@
         .tilt-card {
             width: 320px;
             height: 320px;
-            border-radius: 1.5rem;
+            border-radius: 12px;
             padding: 2rem;
-            background: rgba(24, 24, 27, 0.8);
+            background: var(--bg-secondary);
             border: 1px solid var(--border-color);
-            backdrop-filter: blur(10px);
             overflow: hidden;
             position: relative;
             display: flex;
@@ -84,26 +84,7 @@
         }
 
         .tilt-card .accent-bg {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(48px);
-            z-index: 0;
-        }
-
-        .tilt-card .accent-top {
-            top: 0;
-            left: 0;
-            width: 128px;
-            height: 128px;
-            background: rgba(99, 102, 241, 0.2);
-        }
-
-        .tilt-card .accent-bottom {
-            bottom: 0;
-            right: 0;
-            width: 128px;
-            height: 128px;
-            background: rgba(168, 85, 247, 0.2);
+            display: none;
         }
 
         .tilt-card .content {
@@ -112,90 +93,113 @@
         }
 
         .tilt-card .emoji {
-            font-size: 3.5rem;
+            font-size: 3rem;
             margin-bottom: 1.5rem;
-            animation: float-up 4s ease-in-out infinite;
         }
 
         .tilt-card h3 {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.375rem;
+            font-weight: 700;
             margin-bottom: 0.75rem;
+            color: var(--text-primary);
         }
 
         .tilt-card p {
             font-size: 0.875rem;
-            color: #a1a1aa;
+            color: var(--text-secondary);
             line-height: 1.5;
         }
 
         .featured-section {
-            padding: 5rem 1.5rem;
+            padding: 4rem 1.5rem;
         }
 
         .featured-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
         .featured-card {
-            background: linear-gradient(135deg, rgba(129, 140, 248, 0.1) 0%, rgba(99, 102, 241, 0.05) 100%);
-            border: 1px solid rgba(129, 140, 248, 0.2);
-            border-radius: 0.75rem;
-            padding: 2rem;
-            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.75rem;
+            transition: all 0.2s ease;
         }
 
         .featured-card:hover {
             border-color: var(--accent);
-            background: linear-gradient(135deg, rgba(129, 140, 248, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);
-            transform: translateY(-4px);
+            background-color: var(--accent-muted);
         }
 
         .featured-card .icon {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 1rem;
         }
 
         .featured-card h4 {
-            font-size: 1.125rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
+            color: var(--text-primary);
         }
 
         .featured-card p {
             font-size: 0.875rem;
-            color: #a1a1aa;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .agent-section {
+            padding: 4rem 1.5rem;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .agent-section h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .agent-section p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
             line-height: 1.6;
         }
 
         .cta-section {
-            padding: 5rem 1.5rem;
-            background: linear-gradient(135deg, rgba(129, 140, 248, 0.05) 0%, rgba(99, 102, 241, 0.02) 100%);
+            padding: 4rem 1.5rem;
+            background: var(--bg-primary);
             border-top: 1px solid var(--border-color);
             border-bottom: 1px solid var(--border-color);
             text-align: center;
         }
 
         .cta-section h3 {
-            font-size: 2.25rem;
-            font-weight: bold;
+            font-size: 2rem;
+            font-weight: 700;
             margin-bottom: 1rem;
+            color: var(--text-primary);
         }
 
         .cta-section p {
-            font-size: 1.125rem;
-            color: #a1a1aa;
+            font-size: 1rem;
+            color: var(--text-secondary);
             margin-bottom: 2rem;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.6;
         }
 
         .cta-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             justify-content: center;
             flex-wrap: wrap;
         }
@@ -215,13 +219,13 @@
                 <a href="catalog.html">Catalog</a>
                 <a href="stacks.html">Stacks</a>
                 <a href="submit.html">Submit</a>
-                <a href="sponsor.html">Sponsor</a>
+                
             </nav>
 
             <div class="header-buttons">
                 <button class="light-mode-btn" onclick="openLightModeModal()">☀️ Light Mode</button>
                 <a href="submit.html" class="btn-secondary">Submit Skill</a>
-                <a href="sponsor.html" class="btn-primary">Book Ad Space</a>
+                
             </div>
         </div>
     </header>
@@ -229,16 +233,16 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
-            <div style="text-align: center; margin-bottom: 4rem;">
-                <div class="flex-badge" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1.5rem; border-radius: 9999px;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <div style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.625rem 1.25rem; background-color: var(--accent-muted); border: 1px solid rgba(129, 140, 248, 0.2); border-radius: 9999px;">
                     <span>⚡</span>
-                    <span style="font-size: 0.875rem; font-weight: bold;">Built end-to-end using RightSkills agent skills</span>
+                    <span style="font-size: 0.875rem; font-weight: 600; color: var(--accent);">Built end-to-end using RightSkills agent skills</span>
                 </div>
             </div>
 
             <div class="hero-grid">
                 <div class="hero-content">
-                    <div style="display: inline-block; padding: 0.5rem 1rem; background-color: rgba(129, 140, 248, 0.1); border: 1px solid rgba(129, 140, 248, 0.2); border-radius: 9999px; margin-bottom: 1.5rem;">
+                    <div style="display: inline-block; padding: 0.5rem 1rem; background-color: var(--accent-muted); border: 1px solid rgba(129, 140, 248, 0.15); border-radius: 9999px; margin-bottom: 1.5rem;">
                         <span style="font-size: 0.875rem; font-weight: 600; color: var(--accent); display: flex; align-items: center; gap: 0.5rem;">
                             <span style="display: inline-block; width: 0.5rem; height: 0.5rem; background-color: var(--accent); border-radius: 50%;"></span>
                             Curated with AI & Human Review
@@ -251,8 +255,6 @@
 
                 <div class="tilt-card-container">
                     <div class="tilt-card">
-                        <div class="accent-bg accent-top"></div>
-                        <div class="accent-bg accent-bottom"></div>
                         <div class="content">
                             <div class="emoji">✨</div>
                             <h3>Precision Meets Power</h3>
@@ -363,7 +365,7 @@
                         <li><a href="#reviews">Reviews</a></li>
                         <li><a href="#contribute">Contribute</a></li>
                         <li><a href="#feedback">Feedback</a></li>
-                        <li><a href="sponsor.html">Sponsor</a></li>
+                        <li></li>
                     </ul>
                 </div>
 
