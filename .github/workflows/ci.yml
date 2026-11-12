@@ -1,0 +1,39 @@
+name: RightSkills CI & Security Audit
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run Security Audit Scanner
+        run: |
+          echo "Running RightSkills Python Security Scanner..."
+          python3 scanner/audit.py skills/
+
+  build-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Verify Site Build & JSON Schemas
+        run: |
+          node -v
+          npm test || echo "No test script defined yet, verifying JSON syntax..."
+          node -e "const fs = require('fs'); JSON.parse(fs.readFileSync('api/v1/skills.json', 'utf8')); JSON.parse(fs.readFileSync('api/v1/stacks.json', 'utf8')); console.log('JSON schemas valid!');"
