@@ -430,6 +430,8 @@ ${stack.skills.map(skillId => {
 }
 
 // Light Mode Functions
+let isLightMode = localStorage.getItem('lightMode') === 'true';
+
 function openLightModeModal() {
     const modal = document.getElementById('lightModeModal');
     modal.classList.remove('hidden');
@@ -440,30 +442,99 @@ function closeLightModeModal() {
     modal.classList.add('hidden');
 }
 
+function applyLightMode() {
+    // High-contrast light mode with inverted CSS variables
+    document.documentElement.style.setProperty('--bg-primary', '#ffffff');
+    document.documentElement.style.setProperty('--bg-secondary', '#f8f8f8');
+    document.documentElement.style.setProperty('--bg-tertiary', '#f0f0f0');
+    document.documentElement.style.setProperty('--border-color', '#d0d0d0');
+    document.documentElement.style.setProperty('--accent', '#5b4fb0');
+
+    document.body.style.backgroundColor = '#ffffff';
+    document.body.style.color = '#09090b';
+
+    // Update all text colors for light mode
+    const styles = document.createElement('style');
+    styles.id = 'light-mode-styles';
+    styles.textContent = `
+        body { background-color: #ffffff !important; color: #09090b !important; }
+        header { background-color: rgba(255, 255, 255, 0.95) !important; }
+        footer { background-color: #ffffff !important; }
+        .modal-overlay { background-color: rgba(0, 0, 0, 0.4) !important; }
+        .modal-content { background-color: #f8f8f8 !important; }
+        .glass-card { background: rgba(248, 248, 248, 0.9) !important; }
+        nav a { color: #525252 !important; }
+        nav a:hover { color: #09090b !important; }
+        nav a.active { color: #5b4fb0 !important; }
+        .section-subtitle { color: #666666 !important; }
+        .light-mode-heading { color: #09090b !important; }
+        .light-mode-subtext { color: #525252 !important; }
+        .footer-section a { color: #666666 !important; }
+        .footer-section a:hover { color: #09090b !important; }
+        .footer-bottom p { color: #888888 !important; }
+        .featured-card { background: linear-gradient(135deg, rgba(91, 79, 176, 0.08) 0%, rgba(99, 102, 241, 0.04) 100%) !important; }
+        .featured-card:hover { background: linear-gradient(135deg, rgba(91, 79, 176, 0.12) 0%, rgba(99, 102, 241, 0.08) 100%) !important; }
+        .cta-section { background: linear-gradient(135deg, rgba(91, 79, 176, 0.03) 0%, rgba(99, 102, 241, 0.01) 100%) !important; }
+    `;
+    document.head.appendChild(styles);
+
+    isLightMode = true;
+    localStorage.setItem('lightMode', 'true');
+    updateLightModeButton();
+}
+
+function applyDarkMode() {
+    // Reset to dark mode defaults
+    document.documentElement.style.setProperty('--bg-primary', '#09090b');
+    document.documentElement.style.setProperty('--bg-secondary', '#18181b');
+    document.documentElement.style.setProperty('--bg-tertiary', '#27272a');
+    document.documentElement.style.setProperty('--border-color', '#3f3f46');
+    document.documentElement.style.setProperty('--accent', '#818cf8');
+
+    document.body.style.backgroundColor = '#09090b';
+    document.body.style.color = '#fafafa';
+
+    // Remove light mode styles
+    const lightModeStyles = document.getElementById('light-mode-styles');
+    if (lightModeStyles) {
+        lightModeStyles.remove();
+    }
+
+    isLightMode = false;
+    localStorage.setItem('lightMode', 'false');
+    updateLightModeButton();
+}
+
 function switchToDarkMode() {
     closeLightModeModal();
-    // Dark mode is already the default, just close the modal
+    applyDarkMode();
 }
 
 function stayInLightMode() {
     closeLightModeModal();
-    // Apply light mode theme to the document
-    document.documentElement.style.setProperty('--bg-primary', '#ffffff');
-    document.documentElement.style.setProperty('--bg-secondary', '#f5f5f5');
-    document.documentElement.style.setProperty('--bg-tertiary', '#eeeeee');
-    document.documentElement.style.setProperty('--border-color', '#e0e0e0');
-    document.body.style.color = '#09090b';
+    applyLightMode();
+}
 
-    // Update the button text to indicate we're in light mode
+function updateLightModeButton() {
     const lightModeBtn = document.querySelector('.light-mode-btn');
     if (lightModeBtn) {
-        lightModeBtn.textContent = '🌙 Dark Mode';
-        lightModeBtn.onclick = switchToDarkMode;
+        if (isLightMode) {
+            lightModeBtn.textContent = '🌙 Dark Mode';
+            lightModeBtn.onclick = switchToDarkMode;
+        } else {
+            lightModeBtn.textContent = '☀️ Light Mode';
+            lightModeBtn.onclick = openLightModeModal;
+        }
     }
 }
 
-// Close modal when clicking on the overlay
+// Initialize light mode on page load
 document.addEventListener('DOMContentLoaded', () => {
+    if (isLightMode) {
+        applyLightMode();
+    }
+    updateLightModeButton();
+
     const lightModeModal = document.getElementById('lightModeModal');
     if (lightModeModal) {
         lightModeModal.addEventListener('click', (e) => {
@@ -472,4 +543,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+}, { once: true });
+
+// Close modal when clicking on the overlay
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize light mode on page load
+    if (isLightMode) {
+        applyLightMode();
+    }
+    updateLightModeButton();
 });
