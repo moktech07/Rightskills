@@ -72,8 +72,27 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // Handle .html routes (catalog, stacks, submit, sponsor, etc.)
+  if (req.url !== '/' && !path.extname(req.url)) {
+    filePath = path.join(SITE_DIR, req.url + '.html');
+  }
+
   fs.readFile(filePath, (err, data) => {
     if (err) {
+      // If file not found and it's an HTML route, try serving index.html
+      if (!path.extname(req.url) && req.url !== '/') {
+        fs.readFile(path.join(SITE_DIR, 'index.html'), (indexErr, indexData) => {
+          if (indexErr) {
+            res.writeHead(404, { 'Content-Type': 'text/html' });
+            res.end('<h1>404 - Not Found</h1>');
+            return;
+          }
+          res.writeHead(200, { 'Content-Type': 'text/html' });
+          res.end(indexData);
+        });
+        return;
+      }
+
       res.writeHead(404, { 'Content-Type': 'text/html' });
       res.end('<h1>404 - Not Found</h1>');
       return;
