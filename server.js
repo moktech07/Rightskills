@@ -63,7 +63,8 @@ const server = http.createServer((req, res) => {
   }
 
   // Static files
-  let filePath = path.join(SITE_DIR, req.url === '/' ? 'index.html' : req.url);
+  let cleanUrl = req.url.split('?')[0];
+  let filePath = path.join(SITE_DIR, cleanUrl === '/' ? 'index.html' : cleanUrl);
 
   // Security: prevent directory traversal
   if (!filePath.startsWith(SITE_DIR)) {
@@ -73,28 +74,22 @@ const server = http.createServer((req, res) => {
   }
 
   // Handle .html routes (catalog, stacks, submit, sponsor, etc.)
-  if (req.url !== '/' && !path.extname(req.url)) {
-    filePath = path.join(SITE_DIR, req.url + '.html');
+  if (cleanUrl !== '/' && !path.extname(cleanUrl)) {
+    filePath = path.join(SITE_DIR, cleanUrl + '.html');
   }
 
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      // If file not found and it's an HTML route, try serving index.html
-      if (!path.extname(req.url) && req.url !== '/') {
-        fs.readFile(path.join(SITE_DIR, 'index.html'), (indexErr, indexData) => {
-          if (indexErr) {
-            res.writeHead(404, { 'Content-Type': 'text/html' });
-            res.end('<h1>404 - Not Found</h1>');
-            return;
-          }
-          res.writeHead(200, { 'Content-Type': 'text/html' });
-          res.end(indexData);
-        });
-        return;
-      }
-
-      res.writeHead(404, { 'Content-Type': 'text/html' });
-      res.end('<h1>404 - Not Found</h1>');
+      // Serve 404.html with 404 status
+      fs.readFile(path.join(SITE_DIR, '404.html'), (err404, data404) => {
+        if (err404) {
+          res.writeHead(404, { 'Content-Type': 'text/html' });
+          res.end('<h1>404 - Not Found</h1>');
+          return;
+        }
+        res.writeHead(404, { 'Content-Type': 'text/html' });
+        res.end(data404);
+      });
       return;
     }
 
