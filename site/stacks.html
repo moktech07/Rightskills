@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Stacks - RightSkills</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="shared.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <span>RightSkills</span>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="catalog.html">Catalog</a>
+                <a href="stacks.html">Stacks</a>
+                <a href="submit.html">Submit</a>
+            </nav>
+            <div class="header-buttons">
+                <button class="light-mode-btn" onclick="openLightModeModal()">☀️ Light Mode</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-12">
+        <div class="mb-10 text-center">
+            <h1 class="text-4xl font-extrabold mb-3">Job-Based Stacks</h1>
+            <p class="text-zinc-400">Curated skill bundles designed for specific roles.</p>
+        </div>
+
+        <div id="stacksContainer" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Loaded via JS -->
+        </div>
+    </main>
+
+    <!-- Light Mode Easter Egg Modal -->
+    <div id="lightModeModal" class="modal-overlay hidden">
+        <div class="modal-content text-center">
+            <div class="thinking-emoji">🤔</div>
+            <h3 class="text-xl font-bold mb-2">Are you really a developer??</h3>
+            <p class="text-sm text-zinc-400 mb-6">Light mode blinds you with raw pixels. Real developers embrace the void of obsidian dark mode.</p>
+            <div class="flex flex-col gap-3">
+                <button onclick="switchToDarkMode()" class="btn-primary">🛡️ Switch back to Dark Mode (Phew!)</button>
+                <button onclick="stayInLightMode()" class="btn-secondary">⚠️ Stay in Light Mode (At your own risk)</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 RightSkills. Open source agent skill registry.</p>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script>
+        function renderPageData() {
+            const container = document.getElementById('stacksContainer');
+            if (!container) return;
+            container.innerHTML = allStacks.map(st => `
+                <div class="glass-card">
+                    <div class="text-3xl mb-3">${st.icon}</div>
+                    <h3 class="font-bold text-lg mb-2">${st.title}</h3>
+                    <p class="text-xs text-zinc-400 mb-4">${st.description}</p>
+                    <div class="text-xs text-indigo-400 font-semibold">${st.skills.length} skills included</div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

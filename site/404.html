@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | RightSkills</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="shared.css">
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <span>RightSkills</span>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="catalog.html">Catalog</a>
+                <a href="stacks.html">Stacks</a>
+                <a href="submit.html">Submit</a>
+            </nav>
+            <div class="header-buttons">
+                <button class="light-mode-btn" onclick="openLightModeModal()">☀️ Light Mode</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-20 text-center">
+        <div class="text-6xl font-extrabold text-indigo-400 mb-4">404</div>
+        <h1 class="text-2xl font-bold mb-2">Page Not Found</h1>
+        <p class="text-zinc-400 text-sm mb-8">The page you are looking for does not exist.</p>
+        <a href="index.html" class="btn-primary inline-block">Return Home</a>
+    </main>
+
+    <!-- Light Mode Easter Egg Modal -->
+    <div id="lightModeModal" class="modal-overlay hidden">
+        <div class="modal-content text-center">
+            <div class="thinking-emoji">🤔</div>
+            <h3 class="text-xl font-bold mb-2">Are you really a developer??</h3>
+            <p class="text-sm text-zinc-400 mb-6">Light mode blinds you with raw pixels. Real developers embrace the void of obsidian dark mode.</p>
+            <div class="flex flex-col gap-3">
+                <button onclick="switchToDarkMode()" class="btn-primary">🛡️ Switch back to Dark Mode (Phew!)</button>
+                <button onclick="stayInLightMode()" class="btn-secondary">⚠️ Stay in Light Mode (At your own risk)</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 RightSkills. Open source agent skill registry.</p>
+    </footer>
+
+    <script src="shared.js"></script>
+</body>
+</html>

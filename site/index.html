@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RightSkills - Perfect Skills for Every Job</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="shared.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <span>RightSkills</span>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="catalog.html">Catalog</a>
+                <a href="stacks.html">Stacks</a>
+                <a href="submit.html">Submit</a>
+            </nav>
+            <div class="header-buttons">
+                <button class="light-mode-btn" onclick="openLightModeModal()">☀️ Light Mode</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-20">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold mb-6">
+                    ⚡ Built end-to-end using RightSkills agent skills
+                </div>
+                <h1 class="text-5xl font-extrabold tracking-tight mb-6">Skills crafted for your Tasks</h1>
+                <p class="text-lg text-zinc-400 mb-8">Pre-vetted, security-scanned agent skills and stacks. One-click install for developers, creators, students, and founders.</p>
+                <div class="flex gap-4">
+                    <a href="catalog.html" class="btn-primary">Browse Catalog →</a>
+                    <a href="stacks.html" class="btn-secondary">Explore Stacks</a>
+                </div>
+            </div>
+            <div class="glass-card tilt-card p-8 border border-indigo-500/30 text-center">
+                <div class="text-4xl mb-4">🛡️ Verified & Secure</div>
+                <p class="text-sm text-zinc-400">Every skill is scanned in CI for prompt injection, hidden unicode, and shell execution before listing.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Light Mode Easter Egg Modal -->
+    <div id="lightModeModal" class="modal-overlay hidden">
+        <div class="modal-content text-center">
+            <div class="thinking-emoji">🤔</div>
+            <h3 class="text-xl font-bold mb-2">Are you really a developer??</h3>
+            <p class="text-sm text-zinc-400 mb-6">Light mode blinds you with raw pixels. Real developers embrace the void of obsidian dark mode.</p>
+            <div class="flex flex-col gap-3">
+                <button onclick="switchToDarkMode()" class="btn-primary">🛡️ Switch back to Dark Mode (Phew!)</button>
+                <button onclick="stayInLightMode()" class="btn-secondary">⚠️ Stay in Light Mode (At your own risk)</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 RightSkills. Open source agent skill registry.</p>
+    </footer>
+
+    <script src="shared.js"></script>
+</body>
+</html>

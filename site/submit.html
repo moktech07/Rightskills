@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Skill - RightSkills</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="shared.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">⚡</div>
+                <span>RightSkills</span>
+            </div>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="catalog.html">Catalog</a>
+                <a href="stacks.html">Stacks</a>
+                <a href="submit.html">Submit</a>
+            </nav>
+            <div class="header-buttons">
+                <button class="light-mode-btn" onclick="openLightModeModal()">☀️ Light Mode</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-12 max-w-xl">
+        <div class="mb-8 text-center">
+            <h1 class="text-3xl font-extrabold mb-2">Submit a Skill</h1>
+            <p class="text-zinc-400 text-sm">Submit your skill repository for automated security scanning and publication.</p>
+        </div>
+
+        <div class="glass-card p-6">
+            <form onsubmit="event.preventDefault(); alert('Skill submitted successfully and queued for CI security scan!');">
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-zinc-300 mb-2">Skill Title</label>
+                    <input type="text" required placeholder="e.g. Advanced SQL Migrator" class="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded text-sm text-white focus:outline-none focus:border-indigo-500">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold text-zinc-300 mb-2">GitHub Repository URL</label>
+                    <input type="url" required placeholder="https://github.com/username/skill-repo" class="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded text-sm text-white focus:outline-none focus:border-indigo-500">
+                </div>
+                <button type="submit" class="w-full btn-primary py-2.5">Submit for Audit →</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Light Mode Easter Egg Modal -->
+    <div id="lightModeModal" class="modal-overlay hidden">
+        <div class="modal-content text-center">
+            <div class="thinking-emoji">🤔</div>
+            <h3 class="text-xl font-bold mb-2">Are you really a developer??</h3>
+            <p class="text-sm text-zinc-400 mb-6">Light mode blinds you with raw pixels. Real developers embrace the void of obsidian dark mode.</p>
+            <div class="flex flex-col gap-3">
+                <button onclick="switchToDarkMode()" class="btn-primary">🛡️ Switch back to Dark Mode (Phew!)</button>
+                <button onclick="stayInLightMode()" class="btn-secondary">⚠️ Stay in Light Mode (At your own risk)</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 RightSkills. Open source agent skill registry.</p>
+    </footer>
+
+    <script src="shared.js"></script>
+</body>
+</html>
